@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { fetchMethaneData } from '../../api/methane/index';
 import { Grid, Card, CardContent, Typography } from '@mui/material';
 import { makeStyles, createStyles } from '@mui/styles';
-import BarChart from '../Charts/BarChart'
+import { BarChart2 } from '../Charts/BarChart2'
 import { IMethaneData } from '../../types/methane';
 
 const useStyles = makeStyles(() =>
@@ -52,12 +52,13 @@ export const Dashboard = () => {
 
   console.log('Here is the methane data', methaneData)
 
+
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Card>
-            <BarChart width={600} height={500} margin={{ top: 0, bottom: 0, left: 0, right: 0 }} />
+            <BarChart2 />
           </Card>
         </Grid>
         {cardsData.map((card, index) => (

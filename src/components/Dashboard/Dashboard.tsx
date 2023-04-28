@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { fetchMethaneData } from '../../api/methane/index';
 import { Grid, Card, CardContent, Typography } from '@mui/material';
 import { makeStyles, createStyles } from '@mui/styles';
+import BarChart from '../Charts/BarChart'
+import { IMethaneData } from '../../types/methane';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -23,10 +26,40 @@ const cardsData = [
 
 export const Dashboard = () => {
   const classes = useStyles();
+  const [methaneData, setMethaneData] = useState<IMethaneData[]>([])
+  const [error, setError] = useState<string | null>(null)
+
+  const mounted = useRef(false)
+
+  const getMethaneData = async () => {
+    try {
+      mounted.current = true;
+      const result = await fetchMethaneData();
+      if (mounted.current) {
+        setMethaneData(result);
+      }
+    } catch (error) {
+      console.error("Failed to fetch methane data:", error);
+      setError("Failed to fetch methane data");
+    }
+  }
+
+  useEffect(() => {
+    mounted.current = true
+    getMethaneData()
+    return () => { mounted.current = false };
+  }, [])
+
+  console.log('Here is the methane data', methaneData)
 
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Card>
+            <BarChart width={600} height={500} margin={{ top: 0, bottom: 0, left: 0, right: 0 }} />
+          </Card>
+        </Grid>
         {cardsData.map((card, index) => (
           <Grid key={index} item xs={12} sm={6} md={3}>
             <Card className={classes.card}>

@@ -3,6 +3,7 @@ import { fetchMethaneData } from './api/methane';
 import { fetchCountriesData } from './api/countries';
 import { IMethaneData } from './types/methane';
 import { ICountriesData } from './types/countries';
+import { Dashboard } from './components/Dashboard/Dashboard'
 import './App.css';
 
 function App() {
@@ -48,22 +49,7 @@ function App() {
 
   return (
     <div className="App">
-      {methaneData.map((item: IMethaneData, i: number) => (
-        <div key={i}>
-          <p>Date: {item.time.interval_start}</p>
-          <p>Value: {item.value.average}</p>
-        </div>
-      ))}
-      {error && (
-        <div>
-          <p>Error: {error}</p>
-        </div>
-      )}
-      {countriesData.map((item: string, i: number) => (
-        <div key={i}>
-          <p>{item}</p>
-        </div>
-      ))}
+      <Dashboard />
     </div>
   );
 }

@@ -4,7 +4,7 @@ export const fetchCountriesData = async (): Promise<string[]> => {
   try {
     const response = await axios.get('http://localhost:8080/countries')
     const responseInArrayFormat = Object.keys(response.data).map(key => response.data[key]);
-
+ 
     return responseInArrayFormat
   } catch (err: unknown) {
     if (err instanceof Error) {

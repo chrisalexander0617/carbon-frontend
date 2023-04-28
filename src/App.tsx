@@ -26,8 +26,17 @@ function App() {
     return () => { mounted.current = false };
   }, [])
 
+  console.log('Here is the data', data)
+
   return (
-    <div className="App"></div>
+    <div className="App">
+      {data.map((item: IMethaneData, i: number) => (
+        <div key={i}>
+          <p>Date: {item.time.interval_start}</p>
+          <p>Value: {item.value.average}</p>
+        </div>
+      ))}
+    </div>
   );
 }
 

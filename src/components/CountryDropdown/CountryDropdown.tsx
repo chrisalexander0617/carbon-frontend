@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Autocomplete, FormControl, InputLabel, Select, MenuItem, TextField, SelectChangeEvent } from '@mui/material'
+import { Autocomplete, TextField } from '@mui/material'
 import { makeStyles } from '@mui/styles';
 interface DropdownInputProps {
   options: string[];
@@ -30,20 +30,22 @@ function CountryDropdown({ options, handleUpdateCountryQuery }: DropdownInputPro
   };
 
   return (
-    <Autocomplete
-      className={classes.formControl}
-      id="country-autocomplete"
-      options={options}
-      value={selectedOption}
-      onChange={handleChange}
-      renderInput={(params) => (
-        <TextField
-          value={selectedOption}
-          {...params}
-          label="Select a country"
-        />
-      )}
-    />
+    <>
+      <Autocomplete
+        className={classes.formControl}
+        id="country-autocomplete"
+        options={options}
+        value={selectedOption}
+        onChange={handleChange}
+        renderInput={(params) => (
+          <TextField
+            value={selectedOption}
+            {...params}
+            label="Select a country"
+          />
+        )}
+      />
+    </>
   );
 }
 

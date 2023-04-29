@@ -1,13 +1,11 @@
 import { useEffect, useState, useRef } from 'react';
 import { fetchMethaneData } from '../../api/methane/index';
 import { fetchCountriesData } from '../../api/countries';
-import { Grid, Card, CardContent, Typography, CircularProgress } from '@mui/material';
+import { Grid, Card, CardContent, Typography, CircularProgress, Button } from '@mui/material';
 import { makeStyles, createStyles } from '@mui/styles';
 import { BarChart2 } from '../Charts/BarChart2'
 import { IMethaneData } from '../../types/methane';
-import { convertToReadableDateFormat } from '../../utils';
 import CountryDropdown from '../CountryDropdown/CountryDropdown';
-import { ICountriesData } from '../../types/countries';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -26,7 +24,7 @@ export const Dashboard = () => {
   const [methaneData, setMethaneData] = useState<IMethaneData[]>([])
   const [countriesData, setCountriesData] = useState<string[]>([])
   const [error, setError] = useState<string | null>(null)
-  const [countryQuery, setCountryQuery] = useState<string[]>([])
+  const [countryQuery, setCountryQuery] = useState<string>('US')
   const mounted = useRef(false)
 
   const cardsData = [
@@ -34,13 +32,15 @@ export const Dashboard = () => {
   ];
 
   const getMethaneData = async () => {
+    console.log('calling that shit', countryQuery)
     try {
-      mounted.current = true;
-      const result = await fetchMethaneData();
+      const result = await fetchMethaneData(countryQuery);
+
       if (mounted.current) {
         setMethaneData(result);
       }
     } catch (error) {
+      console.log('failed that bitch')
       setError("Failed to fetch methane data");
     }
   }
@@ -58,8 +58,17 @@ export const Dashboard = () => {
     }
   }
 
-  const handleUpdateCountryQuery = (e: any) => {
-    setCountryQuery(e)
+  // not calling the server each time?
+
+  const handleUpdateCountryQuery = async (e: any) => {
+    // disable the dropdown while data is being fetched
+    setCountryQuery(e);
+    setError(null);
+    try {
+      await getMethaneData();
+    } catch (error) {
+      setError("Failed to fetch methane data");
+    }
   }
 
   useEffect(() => {
@@ -79,16 +88,19 @@ export const Dashboard = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Card>
-            {countriesData.length ? <CountryDropdown handleUpdateCountryQuery={handleUpdateCountryQuery} options={countriesData} /> : <CircularProgress />}
+            <Button variant="contained" onClick={getMethaneData} value="click">Click Me!</Button>
+          </Card>
+          <Card>
+            {countriesData ? <CountryDropdown handleUpdateCountryQuery={handleUpdateCountryQuery} options={countriesData} /> : <CircularProgress />}
           </Card>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <Card>
             {methaneData.length ? <BarChart2 label={methaneData} /> : <CircularProgress />}
           </Card>
         </Grid>
         {cardsData.map((card, index) => (
-          <Grid key={index} item xs={12} sm={6} md={4}>
+          <Grid key={index} item xs={6} sm={6} md={4}>
             <Card className={classes.card}>
               <CardContent>
                 <Typography variant="h5" component="h2">
@@ -100,8 +112,9 @@ export const Dashboard = () => {
               </CardContent>
             </Card>
           </Grid>
-        ))}
-      </Grid>
-    </div>
+        ))
+        }
+      </Grid >
+    </div >
   );
 };

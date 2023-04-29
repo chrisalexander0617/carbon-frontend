@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Theme } from '@mui/material'
-import { makeStyles, createStyles } from '@mui/styles';
+import { useState } from 'react';
+import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material'
+import { makeStyles } from '@mui/styles';
 
 interface DropdownInputProps {
   options: string[];
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
   formControl: {
     margin: 1,
     minWidth: 120,
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 
-function Dropdown({ options }: DropdownInputProps) {
+function CountryDropdown({ options }: DropdownInputProps) {
   const classes = useStyles();
   const [selectedOption, setSelectedOption] = useState<string>('');
 
@@ -44,4 +44,4 @@ function Dropdown({ options }: DropdownInputProps) {
   );
 }
 
-export default Dropdown;
+export default CountryDropdown;

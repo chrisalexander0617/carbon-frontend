@@ -49,12 +49,12 @@ export const Dashboard = () => {
     try {
       mounted.current = true;
       const result = await fetchCountriesData();
-      console.log('Result', result)
+
       if (mounted.current) {
         setCountriesData(result);
       }
     } catch (error) {
-      setError("Failed to fetch methane data");
+      setError("Failed to fetch countries data");
     }
   }
 

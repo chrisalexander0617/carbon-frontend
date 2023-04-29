@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,6 +8,8 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { IMethaneData } from '../../types/methane';
+import { convertToReadableDateFormat } from '../../utils';
 
 ChartJS.register(
   CategoryScale,
@@ -32,24 +33,31 @@ export const options = {
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: [3, 4, 1, 2, 6, 3, 5, 8, 7, 5],
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: 'Dataset 2',
-      data: [3, 4, 1, 2, 6, 3, 5, 8, 7, 5, 3],
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-  ],
-};
+export const BarChart2 = (props: { label: IMethaneData[] }) => {
 
-export const BarChart2 = () => {
+  const { label } = props;
+
+  const mappedDataForLabelsByDate = label.map((item) => (
+    convertToReadableDateFormat(item.time.interval_start)
+  ))
+
+  const averages = label.map((item) => (
+    item.value.max
+  ))
+
+  console.log('mappedDataForLabelsByDate', mappedDataForLabelsByDate)
+
+  const data = {
+    labels: mappedDataForLabelsByDate,
+    datasets: [
+      {
+        label: 'Dataset 1',
+        data: averages,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+      },
+    ],
+  };
+
   return <Bar options={options} data={data} />;
 }

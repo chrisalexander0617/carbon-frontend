@@ -4,6 +4,7 @@ import { Grid, Card, CardContent, Typography } from '@mui/material';
 import { makeStyles, createStyles } from '@mui/styles';
 import { BarChart2 } from '../Charts/BarChart2'
 import { IMethaneData } from '../../types/methane';
+import { convertToReadableDateFormat } from '../../utils';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -53,12 +54,18 @@ export const Dashboard = () => {
   console.log('Here is the methane data', methaneData)
 
 
+  const time = methaneData.map((item) => (
+    convertToReadableDateFormat(item.time.interval_start)
+  ))
+
+  console.log('Time', time)
+
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Card>
-            <BarChart2 />
+            <BarChart2 label={methaneData} />
           </Card>
         </Grid>
         {cardsData.map((card, index) => (

@@ -1,11 +1,13 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { fetchMethaneData } from '../../api/methane/index';
+import { fetchCountriesData } from '../../api/countries';
 import { Grid, Card, CardContent, Typography } from '@mui/material';
 import { makeStyles, createStyles } from '@mui/styles';
 import { BarChart2 } from '../Charts/BarChart2'
 import { IMethaneData } from '../../types/methane';
 import { convertToReadableDateFormat } from '../../utils';
-import Dropdown from '../Dropdown/Dropdown';
+import CountryDropdown from '../CountryDropdown/CountryDropdown';
+import { ICountriesData } from '../../types/countries';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -19,11 +21,10 @@ const useStyles = makeStyles(() =>
   })
 ) as () => Record<string, string>
 
-
-
 export const Dashboard = () => {
   const classes = useStyles();
   const [methaneData, setMethaneData] = useState<IMethaneData[]>([])
+  const [countriesData, setCountriesData] = useState<string[]>([])
   const [error, setError] = useState<string | null>(null)
 
   const mounted = useRef(false)
@@ -47,9 +48,22 @@ export const Dashboard = () => {
     }
   }
 
+  const getCountriesData = async () => {
+    try {
+      mounted.current = true;
+      const result = await fetchCountriesData();
+      if (mounted.current) {
+        setCountriesData(result);
+      }
+    } catch (error) {
+      setError("Failed to fetch methane data");
+    }
+  }
+
   useEffect(() => {
     mounted.current = true
     getMethaneData()
+    getCountriesData()
     return () => { mounted.current = false };
   }, [])
 
@@ -62,7 +76,7 @@ export const Dashboard = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Card>
-            <Dropdown options={['US', 'UK']} />
+            <CountryDropdown options={countriesData} />
           </Card>
         </Grid>
         <Grid item xs={12}>

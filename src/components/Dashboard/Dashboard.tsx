@@ -27,17 +27,12 @@ export const Dashboard = () => {
   const [countriesData, setCountriesData] = useState<string[]>([])
   const [error, setError] = useState<string | null>(null)
   const [countryQuery, setCountryQuery] = useState<string[]>([])
-
   const mounted = useRef(false)
 
   const cardsData = [
-    { title: 'Card 1', content: <BarChart2 label={methaneData} /> },
-    { title: 'Card 2', content: 'Content for card 2' },
-    { title: 'Card 3', content: 'Content for card 3' },
-    { title: 'Card 4', content: 'Content for card 4' },
+    { title: 'Card 1', content: <BarChart2 label={methaneData} /> }
   ];
 
-  // send data to store
   const getMethaneData = async () => {
     try {
       mounted.current = true;
@@ -50,7 +45,6 @@ export const Dashboard = () => {
     }
   }
 
-  // send data to store
   const getCountriesData = async () => {
     try {
       mounted.current = true;
@@ -64,6 +58,10 @@ export const Dashboard = () => {
     }
   }
 
+  const handleUpdateCountryQuery = (e: any) => {
+    setCountryQuery(e)
+  }
+
   useEffect(() => {
     mounted.current = true
     if (mounted.current) getMethaneData()
@@ -72,16 +70,9 @@ export const Dashboard = () => {
 
   useEffect(() => {
     mounted.current = true
-    console.log('Mounted')
     if (mounted.current) getCountriesData()
     return () => { mounted.current = false };
   }, [])
-
-  const handleUpdateCountryQuery = (e: any) => {
-    setCountryQuery(e)
-  }
-
-  console.log(countryQuery)
 
   return (
     <div className={classes.root}>
@@ -97,7 +88,7 @@ export const Dashboard = () => {
           </Card>
         </Grid>
         {cardsData.map((card, index) => (
-          <Grid key={index} item xs={12} sm={6} md={3}>
+          <Grid key={index} item xs={12} sm={6} md={4}>
             <Card className={classes.card}>
               <CardContent>
                 <Typography variant="h5" component="h2">

@@ -5,6 +5,7 @@ import { makeStyles, createStyles } from '@mui/styles';
 import { BarChart2 } from '../Charts/BarChart2'
 import { IMethaneData } from '../../types/methane';
 import { convertToReadableDateFormat } from '../../utils';
+import Dropdown from '../Dropdown/Dropdown';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -18,12 +19,7 @@ const useStyles = makeStyles(() =>
   })
 ) as () => Record<string, string>
 
-const cardsData = [
-  { title: 'Card 1', content: 'Content for card 1' },
-  { title: 'Card 2', content: 'Content for card 2' },
-  { title: 'Card 3', content: 'Content for card 3' },
-  { title: 'Card 4', content: 'Content for card 4' },
-];
+
 
 export const Dashboard = () => {
   const classes = useStyles();
@@ -31,6 +27,13 @@ export const Dashboard = () => {
   const [error, setError] = useState<string | null>(null)
 
   const mounted = useRef(false)
+
+  const cardsData = [
+    { title: 'Card 1', content: <BarChart2 label={methaneData} /> },
+    { title: 'Card 2', content: 'Content for card 2' },
+    { title: 'Card 3', content: 'Content for card 3' },
+    { title: 'Card 4', content: 'Content for card 4' },
+  ];
 
   const getMethaneData = async () => {
     try {
@@ -40,7 +43,6 @@ export const Dashboard = () => {
         setMethaneData(result);
       }
     } catch (error) {
-      console.error("Failed to fetch methane data:", error);
       setError("Failed to fetch methane data");
     }
   }
@@ -51,18 +53,18 @@ export const Dashboard = () => {
     return () => { mounted.current = false };
   }, [])
 
-  console.log('Here is the methane data', methaneData)
-
-
   const time = methaneData.map((item) => (
     convertToReadableDateFormat(item.time.interval_start)
   ))
 
-  console.log('Time', time)
-
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Card>
+            <Dropdown options={['US', 'UK']} />
+          </Card>
+        </Grid>
         <Grid item xs={12}>
           <Card>
             <BarChart2 label={methaneData} />

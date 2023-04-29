@@ -46,8 +46,6 @@ export const BarChart2 = (props: { label: IMethaneData[] }) => {
     item.value.max
   ))
 
-  console.log('mappedDataForLabelsByDate', mappedDataForLabelsByDate)
-
   const data = {
     labels: mappedDataForLabelsByDate,
     datasets: [

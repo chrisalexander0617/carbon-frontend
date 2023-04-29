@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { fetchMethaneData } from '../../api/methane/index';
 import { fetchCountriesData } from '../../api/countries';
-import { Grid, Card, CardContent, Typography } from '@mui/material';
+import { Grid, Card, CardContent, Typography, CircularProgress } from '@mui/material';
 import { makeStyles, createStyles } from '@mui/styles';
 import { BarChart2 } from '../Charts/BarChart2'
 import { IMethaneData } from '../../types/methane';
@@ -26,6 +26,7 @@ export const Dashboard = () => {
   const [methaneData, setMethaneData] = useState<IMethaneData[]>([])
   const [countriesData, setCountriesData] = useState<string[]>([])
   const [error, setError] = useState<string | null>(null)
+  const [countryQuery, setCountryQuery] = useState<string[]>([])
 
   const mounted = useRef(false)
 
@@ -36,6 +37,7 @@ export const Dashboard = () => {
     { title: 'Card 4', content: 'Content for card 4' },
   ];
 
+  // send data to store
   const getMethaneData = async () => {
     try {
       mounted.current = true;
@@ -48,10 +50,12 @@ export const Dashboard = () => {
     }
   }
 
+  // send data to store
   const getCountriesData = async () => {
     try {
       mounted.current = true;
       const result = await fetchCountriesData();
+      console.log('Result', result)
       if (mounted.current) {
         setCountriesData(result);
       }
@@ -62,26 +66,34 @@ export const Dashboard = () => {
 
   useEffect(() => {
     mounted.current = true
-    getMethaneData()
-    getCountriesData()
+    if (mounted.current) getMethaneData()
     return () => { mounted.current = false };
   }, [])
 
-  const time = methaneData.map((item) => (
-    convertToReadableDateFormat(item.time.interval_start)
-  ))
+  useEffect(() => {
+    mounted.current = true
+    console.log('Mounted')
+    if (mounted.current) getCountriesData()
+    return () => { mounted.current = false };
+  }, [])
+
+  const handleUpdateCountryQuery = (e: any) => {
+    setCountryQuery(e)
+  }
+
+  console.log(countryQuery)
 
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Card>
-            <CountryDropdown options={countriesData} />
+            {countriesData.length ? <CountryDropdown handleUpdateCountryQuery={handleUpdateCountryQuery} options={countriesData} /> : <CircularProgress />}
           </Card>
         </Grid>
         <Grid item xs={12}>
           <Card>
-            <BarChart2 label={methaneData} />
+            {methaneData.length ? <BarChart2 label={methaneData} /> : <CircularProgress />}
           </Card>
         </Grid>
         {cardsData.map((card, index) => (

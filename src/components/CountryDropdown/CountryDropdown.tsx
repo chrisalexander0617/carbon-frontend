@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material'
+import { Autocomplete, FormControl, InputLabel, Select, MenuItem, TextField, SelectChangeEvent } from '@mui/material'
 import { makeStyles } from '@mui/styles';
 interface DropdownInputProps {
   options: string[];
+  handleUpdateCountryQuery: (q: string) => void
 }
 
 const useStyles = makeStyles(() => ({
@@ -16,33 +17,33 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-
-function CountryDropdown({ options }: DropdownInputProps) {
+function CountryDropdown({ options, handleUpdateCountryQuery }: DropdownInputProps) {
   const classes = useStyles();
   const [selectedOption, setSelectedOption] = useState<string>('');
 
-  const handleChange = (event: SelectChangeEvent<string>) => {
-    setSelectedOption(event.target.value);
+  const handleChange = (
+    event: React.SyntheticEvent<Element, Event>,
+    value: string | null,
+  ) => {
+    setSelectedOption(value ?? '');
+    handleUpdateCountryQuery(value ?? '');
   };
 
-  console.log('CountriesDropdown', options)
-
   return (
-    <FormControl className={classes.formControl}>
-      <InputLabel id="dropdown-label">Select an option</InputLabel>
-      <Select
-        labelId="dropdown-label"
-        id="dropdown"
-        value={selectedOption}
-        onChange={handleChange}
-      >
-        {options.map((option, i) => (
-          <MenuItem key={i} value={option}>
-            {option}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <Autocomplete
+      className={classes.formControl}
+      id="country-autocomplete"
+      options={options}
+      value={selectedOption}
+      onChange={handleChange}
+      renderInput={(params) => (
+        <TextField
+          value={selectedOption}
+          {...params}
+          label="Select a country"
+        />
+      )}
+    />
   );
 }
 

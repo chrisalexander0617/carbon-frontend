@@ -5,14 +5,19 @@ import { fetchMethaneData } from '../../api/methane/index';
 import { IMethaneData } from '../../types/methane';
 import AutocompleteComponent from '../AutoComplete/AutoComplete';
 import { BarChart2 } from '../Charts/BarChart2';
+import type { RootState } from '../../app/store'
+import { useSelector, useDispatch } from 'react-redux';
+import { set } from '../../features/methane/methaneSlice';
 
 export const Dashboard2 = () => {
-  const [methaneData, setMethaneData] = useState<IMethaneData[]>([])
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null)
   const [countriesData, setCountriesData] = useState<string[]>([])
   const [selectedCountryCode, setSelectedCountryCode] = useState<string>('US')
   const mounted = useRef(false);
+
+  const dispatch = useDispatch()
+  const methane_data = useSelector((state: RootState) => state.methane.value)
 
   const getCountriesData = async () => {
     try {
@@ -34,7 +39,7 @@ export const Dashboard2 = () => {
       const result = await fetchMethaneData(countryCode);
 
       if (mounted.current) {
-        setMethaneData(result);
+        dispatch(set(result))
       }
 
       setLoading(false)
@@ -95,7 +100,7 @@ export const Dashboard2 = () => {
         </Grid>
       </Grid>
       <Grid item xs={12}>
-        <BarChart2 category="Methane" label={methaneData} />
+        <BarChart2 category="Methane" label={methane_data} />
       </Grid>
     </Grid>
   )

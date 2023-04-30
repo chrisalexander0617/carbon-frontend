@@ -11,10 +11,6 @@ export const fetchMethaneData = async (query: string): Promise<IMethaneData[]> =
       }
     })
 
-    console.log('response from our backend', response.data)
-
-    console.log('We got a response from the server')
-
     return response.data
     
   } catch (err: unknown) {

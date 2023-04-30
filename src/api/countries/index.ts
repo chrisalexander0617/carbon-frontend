@@ -1,7 +1,5 @@
 import axios from 'axios'
 
-//eventually we need to match a typed in country in case sure 
-
 export const fetchCountriesData = async (): Promise<string[]> => {
   try {
     const response = await axios.get('http://localhost:8080/countries')

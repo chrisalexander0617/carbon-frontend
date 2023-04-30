@@ -1,7 +1,10 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import methaneReducer from '../features/methane/methaneSlice';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    methane: methaneReducer,
+  },
 });
 
 export type AppDispatch = typeof store.dispatch;

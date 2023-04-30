@@ -34,9 +34,9 @@ export const options = {
 };
 
 
-export const BarChart2 = (props: { label: IMethaneData[] }) => {
+export const BarChart2 = (props: { label: IMethaneData[], category: string }) => {
 
-  const { label } = props;
+  const { label, category } = props;
 
   const mappedDataForLabelsByDate = label.map((item) => (
     convertToReadableDateFormat(item.time.interval_start)
@@ -50,7 +50,7 @@ export const BarChart2 = (props: { label: IMethaneData[] }) => {
     labels: mappedDataForLabelsByDate,
     datasets: [
       {
-        label: 'Dataset 1',
+        label: category,
         data: averages,
         backgroundColor: 'rgba(0, 0, 0, 0.5)'
       },

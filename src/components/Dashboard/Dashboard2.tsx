@@ -114,7 +114,7 @@ export const Dashboard2 = () => {
       (<Grid sx={{ width: '1200px', maxWidth: '100%', m: '0 auto' }} container spacing={3} p={3}>
         <Grid item xs={12}>
           <Typography variant="h3" textAlign="left">
-            Country: {countries_data[selectedCountryCode]}
+            Country: {countries_data[selectedCountryCode]} - {selectedCountryCode}
           </Typography>
         </Grid>
         <Grid item xs={12}>

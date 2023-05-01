@@ -19,30 +19,37 @@ const AutocompleteComponent: React.FC<Props> = ({ options, label, onChange, onSe
     onSelect(value);
   };
 
+  const uniqueOptions = options.filter(function(item, pos) {
+    return options.indexOf(item) === pos;
+  });
+
+  console.log('Unique options', uniqueOptions)
+
   return (
     <Autocomplete
-      options={options}
-      getOptionLabel={(option) => data[option]}
+      options={uniqueOptions}
+      getOptionLabel={(option) => `${data[option]} - ${option}`}
       disableClearable
       renderInput={(params) => (
-        <TextField
-          {...params}
-          label={label}
-          variant="outlined"
-          onChange={() => handleOnChange}
-          onBlur={() => handleOnChange}
-          disabled={true}
-          sx={{
-            '& .Mui-disabled': {
-              bgcolor: 'transparent',
-              color: 'black',
-              '-webkit-text-fill-color': 'rgba(0, 0, 0, 1) !important',
-            }
-          }}
-        />
-      )}
-      onChange={(event, value) => handleOnSelect(value || '')}
+    <TextField
+      {...params}
+      label={label}
+      variant="outlined"
+      onChange={() => handleOnChange} // remove the parentheses
+      onBlur={() => handleOnChange} // remove the parentheses
+      disabled={true}
+      sx={{
+        '& .Mui-disabled': {
+          bgcolor: 'transparent',
+          color: 'black',
+          '-webkit-text-fill-color': 'rgba(0, 0, 0, 1) !important',
+        },
+      }}
     />
+  )}
+  onChange={(event, value) => handleOnSelect(value || '')}
+/>
+
   );
 };
 

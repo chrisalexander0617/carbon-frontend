@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { Button, Grid, Typography } from '@mui/material';
 import { fetchCountriesData, fetchCountryLables } from '../../api/countries';
 import { fetchMethaneData } from '../../api/methane/index';
+import { fetchCarbonMonoxideData } from '../../api/carbonmonoxide/index';
 import AutocompleteComponent from '../AutoComplete/AutoComplete';
 import { BarChart } from '../Charts/BarChart';
 import { DualChart } from '../Charts/DualChart';
@@ -9,6 +10,7 @@ import type { RootState } from '../../app/store'
 import { useSelector, useDispatch } from 'react-redux';
 import { set } from '../../features/methane/methaneSlice';
 import { setCountry } from '../../features/countries/countrySlice';
+import { setCarbonMonoxide } from '../../features/carbonmonoxide/carbonmonoxideSlice';
 
 import BasicLoader from '../Loaders/BasicLoader';
 import { ICountriesData } from '../../types/countries';
@@ -23,6 +25,7 @@ export const Dashboard2 = () => {
 
   const dispatch = useDispatch()
   const methane_data = useSelector((state: RootState) => state.methane.value)
+  const carbonmonoxide_data = useSelector((state: RootState) => state.carbonmonoxide.value)
   const countries_data = useSelector((state: RootState) => state.country.value)
 
 
@@ -46,7 +49,6 @@ export const Dashboard2 = () => {
       mounted.current = true;
       const result = await fetchCountryLables();
 
-      console.log('the country labels', result)
 
       if (mounted.current) {
         setCountryLabels(result);
@@ -64,8 +66,6 @@ export const Dashboard2 = () => {
 
       if (mounted.current) {
         dispatch(set(result))
-        if (countries_data) console.log('Countries data', countries_data[selectedCountryCode])
-        else console.log('no data')
       }
 
       setLoading(false)
@@ -77,18 +77,39 @@ export const Dashboard2 = () => {
   }
 
 
+  const getCarbonMonoxideData = async (countryCode: string) => {
+    setLoading(true)
 
-  const getNamesOfCountriesInArray = (data: ICountriesData) => {
-    console.log('DATA ===>', data)
+    try {
+      const result = await fetchCarbonMonoxideData(countryCode);
+
+      if (mounted.current) {
+        dispatch(setCarbonMonoxide(result))
+      }
+
+      setLoading(false)
+
+    } catch (error) {
+      setError("Failed to fetch methane data");
+      setLoading(false)
+    }
   }
 
 
   // function required to due to MUI Button onClick type
-  const triggerMethaneDataFetch = () => getMethaneData(selectedCountryCode)
+
+  const triggerDataFetch = () => {
+    getMethaneData(selectedCountryCode)
+    getCarbonMonoxideData(selectedCountryCode)
+  }
+
 
   useEffect(() => {
     mounted.current = true
-    if (mounted.current) getMethaneData(selectedCountryCode)
+    if (mounted.current) {
+      getMethaneData(selectedCountryCode)
+      getCarbonMonoxideData(selectedCountryCode)
+    }
     return () => { mounted.current = false };
   }, [])
 
@@ -97,16 +118,10 @@ export const Dashboard2 = () => {
     if (mounted.current) {
       getCountryLables()
       getCountriesData()
-      if (countries_data) getNamesOfCountriesInArray(countries_data)
     }
 
     return () => { mounted.current = false };
   }, [])
-
-
-  useEffect(() => {
-    console.log('Countries Data ===> ', countries_data)
-  })
 
   if (!countries_data) return <div><BasicLoader /></div>
 
@@ -133,7 +148,7 @@ export const Dashboard2 = () => {
               sx={{ mt: 4, width: '100%' }}
               disabled={!countryLabels.includes(selectedCountryCode)}
               variant="contained"
-              onClick={triggerMethaneDataFetch}
+              onClick={triggerDataFetch}
             >
               Get Data
             </Button>
@@ -143,7 +158,7 @@ export const Dashboard2 = () => {
           {!loading ? <BarChart category="Methane" label={methane_data} /> : <BasicLoader />}
         </Grid>
         <Grid item xs={6}>
-          {!loading ? <DualChart category="Carbon Minoxide" label={methane_data} /> : <BasicLoader />}
+          {!loading ? <DualChart category="Carbon Monoxide" label={carbonmonoxide_data} /> : <BasicLoader />}
         </Grid>
       </Grid>)
     }

@@ -7,8 +7,6 @@ function App() {
 
   useEffect(() => {
     mounted.current = true;
-
-    console.log('Mounted')
     return () => { mounted.current = false };
   }, [])
 

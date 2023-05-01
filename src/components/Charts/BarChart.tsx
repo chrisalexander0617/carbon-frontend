@@ -22,6 +22,7 @@ ChartJS.register(
 
 export const options = {
   responsive: true,
+  updateMode: 'resize',
   plugins: {
     legend: {
       position: 'top' as const,

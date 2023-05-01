@@ -1,7 +1,6 @@
 import { IMethaneData } from "../../types/methane"
 import { set as setMethaneData } from "../../features/methane/methaneSlice";
 import { Dispatch } from "react";
-
 import axios from 'axios'
 
 export const fetchMethaneData = async (query: string): Promise<IMethaneData[]> => {

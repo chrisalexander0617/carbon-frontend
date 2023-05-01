@@ -1,19 +1,19 @@
-import { Box, CircularProgress } from '@mui/material';
+import * as MUI from '@mui/material';
 import { useTheme } from '@mui/material'
 
 const BasicLoader = () => {
   const theme = useTheme();
 
   return (
-    <Box sx={{
+    <MUI.Box sx={{
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       height: '500px',
       width: '100%',
     }}>
-      <CircularProgress sx={{ color: theme.palette.secondary.main }} />
-    </Box>
+      <MUI.CircularProgress sx={{ color: theme.palette.secondary.main }} />
+    </MUI.Box>
   )
 }
 export default BasicLoader;

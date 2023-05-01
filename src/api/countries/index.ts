@@ -45,6 +45,6 @@ export const getCountriesData = async (
       dispatch(setCountryState(result));
     }
   } catch (error) {
-    setError("Failed to fetch countries data");
+    setError("Server error: Unable to fetch data");
   }
 };

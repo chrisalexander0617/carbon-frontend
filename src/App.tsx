@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from '@mui/material/CssBaseline';
-import { Dashboard } from './components/Dashboard/Dashboard'
+import Dashboard from './components/Dashboard/Dashboard'
 import './App.css';
 import { changeBodyBackgroundColor } from '../src/utils/index'
 import theme from '../src/app/theme';

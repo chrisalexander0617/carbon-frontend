@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import * as MUI from '@mui/material';
 import { fetchCountryLables } from '../../api/countries';
 import AutocompleteComponent from '../AutoComplete/AutoComplete';
@@ -13,7 +13,7 @@ import { getMethaneData } from '../../api/methane/index';
 import BasicLoader from '../Loaders/BasicLoader';
 import { getCarbonMonoxideData } from '../../api/carbonmonoxide/index';
 
-export const Dashboard = () => {
+const Dashboard = () => {
   const theme = useTheme();
   const [loading, setLoading] = useState(true);
   const [loadingCarbonMonoxideData, setLoadingCarbonMonoxideData] = useState(true);
@@ -40,12 +40,14 @@ export const Dashboard = () => {
   }
 
   const triggerDataFetch = (e: any) => {
-    getMethaneData(mounted, dispatch, e, setCountry, setLoading)
+    getMethaneData(mounted, dispatch, e, setError, setLoading)
     getCarbonMonoxideData(mounted, dispatch, e, setError, setLoadingCarbonMonoxideData)
     setSelectedCountryCode(e)
   }
 
   const selectAndUpdateGraphs = (e: any) => {
+    setError(null)
+    setLoading(true)
     triggerDataFetch(e)
   }
 
@@ -81,13 +83,15 @@ export const Dashboard = () => {
           />
         </MUI.Grid>
         <MUI.Grid item xs={12} md={6}>
-          {!loading ? <BarChart category="Methane" label={methane_data} /> : <BasicLoader />}
+          {!loading && methane_data.length > 0 ? <BarChart category="Methane" label={methane_data} /> : <BasicLoader message={error} />}
         </MUI.Grid>
         <MUI.Grid item xs={12} md={6}>
-          {!loadingCarbonMonoxideData ? <DualChart category="Carbon Monoxide" label={carbonmonoxide_data} /> : <BasicLoader />}
+          {!loadingCarbonMonoxideData && carbonmonoxide_data.length > 0 ? <DualChart category="Carbon Monoxide" label={carbonmonoxide_data} /> : <BasicLoader message={error} />}
         </MUI.Grid>
       </MUI.Grid >)
     }
     </>
   )
 }
+
+export default Dashboard

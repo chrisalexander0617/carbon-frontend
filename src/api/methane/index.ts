@@ -4,11 +4,10 @@ import { Dispatch } from "react";
 import axios from 'axios'
 
 export const fetchMethaneData = async (query: string): Promise<IMethaneData[]> => {
-  console.log('Methane Data Fetching...', query);
-
+  console.log('QUERY', query)
   try {
     const response = await axios.get(`http://localhost:8080/methane/${query}`)
-
+    console.log('Methane Data', response.data)
     return response.data
     
   } catch (err: unknown) {
@@ -35,6 +34,7 @@ export const getMethaneData = async (
     if (mounted.current) {
       dispatch(setMethaneData(result));
       setLoading(false);
+      setError(null)
     }
   } catch (error) {
     setError("Failed to fetch methane data");

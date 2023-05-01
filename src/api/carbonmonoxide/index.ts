@@ -4,8 +4,6 @@ import { setCarbonMonoxideData } from "../../features/carbonmonoxide/carbonmonox
 import axios from 'axios'
 
 export const fetchCarbonMonoxideData = async (query: string): Promise<ICarbonMonoxideData[]> => {
-  console.log('Carbon Monoxide Data Fetching...', query);
-
   try {
     const response = await axios.get(`http://localhost:8080/carbonmonoxide/${query}`)
     return response.data
@@ -36,6 +34,7 @@ export const getCarbonMonoxideData = async (
     if (mounted.current) {
       dispatch(setCarbonMonoxideData(result));
       setLoading(false);
+      setError(null)
     }
   } catch (error: unknown) {
     if (error instanceof Error) {

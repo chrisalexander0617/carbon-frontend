@@ -3,7 +3,8 @@ import { Button, Grid, Typography } from '@mui/material';
 import { fetchCountriesData, fetchCountryLables } from '../../api/countries';
 import { fetchMethaneData } from '../../api/methane/index';
 import AutocompleteComponent from '../AutoComplete/AutoComplete';
-import { BarChart2 } from '../Charts/BarChart2';
+import { BarChart } from '../Charts/BarChart';
+import { DualChart } from '../Charts/DualChart';
 import type { RootState } from '../../app/store'
 import { useSelector, useDispatch } from 'react-redux';
 import { set } from '../../features/methane/methaneSlice';
@@ -111,7 +112,7 @@ export const Dashboard2 = () => {
 
   return (
     <>{!countries_data ? <BasicLoader /> :
-      (<Grid sx={{ width: '1200px', maxWidth: '100%', m: '0 auto' }} container spacing={3} p={3}>
+      (<Grid sx={{ maxWidth: '100%', m: '0 auto' }} container spacing={3} p={3}>
         <Grid item xs={12}>
           <Typography variant="h3" textAlign="left">
             Country: {countries_data[selectedCountryCode]} - {selectedCountryCode}
@@ -138,8 +139,11 @@ export const Dashboard2 = () => {
             </Button>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
-          {!loading ? <BarChart2 category="Methane" label={methane_data} /> : <BasicLoader />}
+        <Grid item xs={6}>
+          {!loading ? <BarChart category="Methane" label={methane_data} /> : <BasicLoader />}
+        </Grid>
+        <Grid item xs={6}>
+          {!loading ? <DualChart category="Carbon Minoxide" label={methane_data} /> : <BasicLoader />}
         </Grid>
       </Grid>)
     }

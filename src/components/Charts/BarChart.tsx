@@ -34,7 +34,7 @@ export const options = {
 };
 
 
-export const BarChart2 = (props: { label: IMethaneData[], category: string }) => {
+export const BarChart = (props: { label: IMethaneData[], category: string }) => {
 
   const { label, category } = props;
 

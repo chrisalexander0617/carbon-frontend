@@ -149,18 +149,6 @@ export const Dashboard2 = () => {
             data={countries_data}
           />
         </Grid>
-        <Grid item xs={12}>
-          <Grid container justifyContent="flex-end">
-            <Button
-              sx={{ mt: 4, width: '100%' }}
-              disabled={!countryLabels.includes(selectedCountryCode)}
-              variant="contained"
-              onClick={triggerDataFetch}
-            >
-              Get Data
-            </Button>
-          </Grid>
-        </Grid>
         <Grid item xs={6}>
           {!loading ? <BarChart category="Methane" label={methane_data} /> : <BasicLoader />}
         </Grid>

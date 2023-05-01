@@ -40,6 +40,8 @@ const AutocompleteComponent: React.FC<Props> = ({ options, label, onChange, onSe
           sx={{
             '& .Mui-disabled': {
               bgcolor: 'transparent',
+              cursor: 'pointer',
+              caretColor: 'transparent',
               color: 'black',
               '-webkit-text-fill-color': 'rgba(0, 0, 0, 1) !important',
             },

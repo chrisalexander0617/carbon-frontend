@@ -17,6 +17,7 @@ import { ICountriesData } from '../../types/countries';
 
 export const Dashboard2 = () => {
   const [loading, setLoading] = useState(true);
+  const [loadingCarbonMonoxideData, setLoadingCarbonMonoxideData] = useState(true);
   const [error, setError] = useState<string | null>(null)
   const [countriesData, setCountriesData] = useState<ICountriesData>()
   const [countryLabels, setCountryLabels] = useState<string[]>([])
@@ -37,7 +38,6 @@ export const Dashboard2 = () => {
       if (mounted.current) {
         setCountriesData(result);
         dispatch(setCountry(result))
-
       }
     } catch (error) {
       setError("Failed to fetch countries data");
@@ -66,9 +66,9 @@ export const Dashboard2 = () => {
 
       if (mounted.current) {
         dispatch(set(result))
+        setLoading(false)
       }
 
-      setLoading(false)
 
     } catch (error) {
       setError("Failed to fetch methane data");
@@ -78,22 +78,24 @@ export const Dashboard2 = () => {
 
 
   const getCarbonMonoxideData = async (countryCode: string) => {
-    setLoading(true)
+    setLoadingCarbonMonoxideData(true)
 
     try {
       const result = await fetchCarbonMonoxideData(countryCode);
 
       if (mounted.current) {
         dispatch(setCarbonMonoxide(result))
+        setLoadingCarbonMonoxideData(false)
       }
 
-      setLoading(false)
 
     } catch (error) {
       setError("Failed to fetch methane data");
-      setLoading(false)
+      setLoadingCarbonMonoxideData(false)
     }
   }
+
+
 
 
   // function required to due to MUI Button onClick type
@@ -101,6 +103,11 @@ export const Dashboard2 = () => {
   const triggerDataFetch = () => {
     getMethaneData(selectedCountryCode)
     getCarbonMonoxideData(selectedCountryCode)
+  }
+
+  const selectAndUpdateGraphs = (e: string) => {
+    setSelectedCountryCode(e)
+    triggerDataFetch()
   }
 
 
@@ -136,7 +143,7 @@ export const Dashboard2 = () => {
         <Grid item xs={12}>
           <AutocompleteComponent
             onChange={(e) => setSelectedCountryCode(e)}
-            onSelect={(e) => setSelectedCountryCode(e)}
+            onSelect={(e) => selectAndUpdateGraphs(e)}
             label="Choose a country ID"
             options={countryLabels}
             data={countries_data}
@@ -158,7 +165,7 @@ export const Dashboard2 = () => {
           {!loading ? <BarChart category="Methane" label={methane_data} /> : <BasicLoader />}
         </Grid>
         <Grid item xs={6}>
-          {!loading ? <DualChart category="Carbon Monoxide" label={carbonmonoxide_data} /> : <BasicLoader />}
+          {!loadingCarbonMonoxideData ? <DualChart category="Carbon Monoxide" label={carbonmonoxide_data} /> : <BasicLoader />}
         </Grid>
       </Grid>)
     }

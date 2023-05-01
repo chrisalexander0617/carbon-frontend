@@ -33,6 +33,7 @@ const AutocompleteComponent: React.FC<Props> = ({ options, label, onChange, onSe
           {...params}
           label={label}
           variant="outlined"
+          onSelect={() => handleOnChange}
           onChange={() => handleOnChange} // remove the parentheses
           onBlur={() => handleOnChange} // remove the parentheses
           disabled={true}

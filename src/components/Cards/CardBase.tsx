@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardContent, Typography } from '@mui/material';
+import * as MUI from '@mui/material';
 
 interface ICardBaseProps {
   title: string
@@ -8,16 +8,16 @@ interface ICardBaseProps {
 
 const CardBase: React.FC<ICardBaseProps> = ({ title, content }) => {
   return (
-    <Card>
-      <CardContent>
-        <Typography variant="h5" component="h2">
+    <MUI.Card>
+      <MUI.CardContent>
+        <MUI.Typography variant="h5" component="h2">
           {title}
-        </Typography>
-        <Typography color="textSecondary" gutterBottom>
+        </MUI.Typography>
+        <MUI.Typography color="textSecondary" gutterBottom>
           {content}
-        </Typography>
-      </CardContent>
-    </Card>
+        </MUI.Typography>
+      </MUI.CardContent>
+    </MUI.Card>
   )
 }
 

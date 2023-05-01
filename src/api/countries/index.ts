@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { ICountryLables, ICountriesData } from '../../types/countries'
+import { ICountriesData } from '../../types/countries'
 import { Dispatch, SetStateAction, MutableRefObject } from "react";
 
 export const fetchCountriesData = async (): Promise<ICountriesData> => {

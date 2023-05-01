@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect } from 'react';
+import React, { SetStateAction } from 'react';
 import { Autocomplete, TextField } from '@mui/material';
 import { ICountriesData } from '../../types/countries';
 import { useTheme } from "@mui/material/styles";

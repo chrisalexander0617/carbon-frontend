@@ -4,6 +4,8 @@ import { Dispatch } from "react";
 import axios from 'axios'
 
 export const fetchMethaneData = async (query: string): Promise<IMethaneData[]> => {
+  console.log('Methane Data Fetching...', query);
+
   try {
     const response = await axios.get(`http://localhost:8080/methane/${query}`)
 

@@ -13,7 +13,7 @@ import { getMethaneData } from '../../api/methane/index';
 import BasicLoader from '../Loaders/BasicLoader';
 import { getCarbonMonoxideData } from '../../api/carbonmonoxide/index';
 
-export const Dashboard = React.memo(() => {
+export const Dashboard = () => {
   const theme = useTheme();
   const [loading, setLoading] = useState(true);
   const [loadingCarbonMonoxideData, setLoadingCarbonMonoxideData] = useState(true);
@@ -39,37 +39,23 @@ export const Dashboard = React.memo(() => {
     }
   }
 
-  const triggerDataFetch = () => {
-    getMethaneData(mounted, dispatch, selectedCountryCode, setCountry, setLoading)
-    getCarbonMonoxideData(mounted, dispatch, selectedCountryCode, setError, setLoadingCarbonMonoxideData)
-  }
-
-  const selectAndUpdateGraphs = (e: string) => {
+  const triggerDataFetch = (e: any) => {
+    getMethaneData(mounted, dispatch, e, setCountry, setLoading)
+    getCarbonMonoxideData(mounted, dispatch, e, setError, setLoadingCarbonMonoxideData)
     setSelectedCountryCode(e)
-    triggerDataFetch()
   }
 
-  useEffect(() => {
-    mounted.current = true
-    if (mounted.current)
-      getMethaneData(mounted, dispatch, selectedCountryCode, setCountry, setLoading)
-
-    return () => { mounted.current = false };
-  }, [])
-
-  useEffect(() => {
-    mounted.current = true
-    if (mounted.current)
-      getCarbonMonoxideData(mounted, dispatch, selectedCountryCode, setError, setLoadingCarbonMonoxideData)
-
-    return () => { mounted.current = false };
-  }, [])
+  const selectAndUpdateGraphs = (e: any) => {
+    triggerDataFetch(e)
+  }
 
   useEffect(() => {
     mounted.current = true
     if (mounted.current) {
       getCountryLables()
       getCountriesData(mounted, dispatch, setError, setCountry)
+      getCarbonMonoxideData(mounted, dispatch, selectedCountryCode, setError, setLoadingCarbonMonoxideData)
+      getMethaneData(mounted, dispatch, selectedCountryCode, setCountry, setLoading)
     }
 
     return () => { mounted.current = false };
@@ -87,7 +73,7 @@ export const Dashboard = React.memo(() => {
         </MUI.Grid>
         <MUI.Grid item xs={12}>
           <AutocompleteComponent
-            onChange={(e) => setSelectedCountryCode(e)}
+            onChange={(e) => selectAndUpdateGraphs(e)}
             onSelect={(e) => selectAndUpdateGraphs(e)}
             label="Choose a country ID"
             options={countryLabels}
@@ -104,4 +90,4 @@ export const Dashboard = React.memo(() => {
     }
     </>
   )
-})
+}

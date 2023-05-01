@@ -1,4 +1,6 @@
 import { ICarbonMonoxideData } from "../../types/carbonmonoxide"
+import { Dispatch } from "react";
+import { setCarbonMonoxideData } from "../../features/carbonmonoxide/carbonmonoxideSlice";
 import axios from 'axios'
 
 export const fetchCarbonMonoxideData = async (query: string): Promise<ICarbonMonoxideData[]> => {
@@ -18,3 +20,27 @@ export const fetchCarbonMonoxideData = async (query: string): Promise<ICarbonMon
     }
   }
 }
+
+
+export const getCarbonMonoxideData = async (
+  mounted: { current: boolean },
+  dispatch: Dispatch<any>,
+  countryCode: string,
+  setError: Dispatch<any>,
+  setLoading: Dispatch<boolean>
+): Promise<void> => {
+  setLoading(true);
+
+  try {
+    const result = await fetchCarbonMonoxideData(countryCode);
+
+    if (mounted.current) {
+      dispatch(setCarbonMonoxideData(result));
+      setLoading(false);
+    }
+  } catch (error) {
+    setError("Failed to fetch methane data");
+    setLoading(false);
+  }
+};
+

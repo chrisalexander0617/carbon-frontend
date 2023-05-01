@@ -14,12 +14,12 @@ export const carbonmonoxideSlice = createSlice({
   name:'carbonmonoxide',
   initialState,
   reducers: {
-    setCarbonMonoxide: (state, action: PayloadAction<ICarbonMonoxideData[]>) => {
+    setCarbonMonoxideData: (state, action: PayloadAction<ICarbonMonoxideData[]>) => {
       state.value = action.payload
     }
   }
 })
 
-export const { setCarbonMonoxide } = carbonmonoxideSlice.actions
+export const { setCarbonMonoxideData } = carbonmonoxideSlice.actions
 
 export default carbonmonoxideSlice.reducer

@@ -10,13 +10,13 @@ import type { RootState } from '../../app/store'
 import { useSelector, useDispatch } from 'react-redux';
 import { set } from '../../features/methane/methaneSlice';
 import { setCountry } from '../../features/countries/countrySlice';
-import { setCarbonMonoxide } from '../../features/carbonmonoxide/carbonmonoxideSlice';
 import { useTheme } from "@mui/material/styles";
 import { getCountriesData } from '../../api/countries';
-
+import { getMethaneData } from '../../api/methane/index';
 import BasicLoader from '../Loaders/BasicLoader';
 import { ICountriesData } from '../../types/countries';
-
+import { setCarbonMonoxideData } from '../../features/carbonmonoxide/carbonmonoxideSlice';
+import { getCarbonMonoxideData } from '../../api/carbonmonoxide/index';
 export const Dashboard = () => {
   const theme = useTheme();
 
@@ -38,7 +38,6 @@ export const Dashboard = () => {
       mounted.current = true;
       const result = await fetchCountryLables();
 
-
       if (mounted.current) {
         setCountryLabels(result);
       }
@@ -47,51 +46,11 @@ export const Dashboard = () => {
     }
   }
 
-  const getMethaneData = async (countryCode: string) => {
-    setLoading(true)
-
-    try {
-      const result = await fetchMethaneData(countryCode);
-
-      if (mounted.current) {
-        dispatch(set(result))
-        setLoading(false)
-      }
-
-
-    } catch (error) {
-      setError("Failed to fetch methane data");
-      setLoading(false)
-    }
-  }
-
-
-  const getCarbonMonoxideData = async (countryCode: string) => {
-    setLoadingCarbonMonoxideData(true)
-
-    try {
-      const result = await fetchCarbonMonoxideData(countryCode);
-
-      if (mounted.current) {
-        dispatch(setCarbonMonoxide(result))
-        setLoadingCarbonMonoxideData(false)
-      }
-
-
-    } catch (error) {
-      setError("Failed to fetch methane data");
-      setLoadingCarbonMonoxideData(false)
-    }
-  }
-
-
-
-
   // function required to due to MUI Button onClick type
-
   const triggerDataFetch = () => {
-    getMethaneData(selectedCountryCode)
-    getCarbonMonoxideData(selectedCountryCode)
+    getMethaneData(mounted, dispatch, selectedCountryCode, setCountry, setLoading)
+    getCarbonMonoxideData(mounted, dispatch, selectedCountryCode, setError, setLoadingCarbonMonoxideData)
+
   }
 
   const selectAndUpdateGraphs = (e: string) => {
@@ -103,8 +62,7 @@ export const Dashboard = () => {
   useEffect(() => {
     mounted.current = true
     if (mounted.current) {
-      getMethaneData(selectedCountryCode)
-      getCarbonMonoxideData(selectedCountryCode)
+      getMethaneData(mounted, dispatch, selectedCountryCode, setCountry, setLoading)
     }
     return () => { mounted.current = false };
   }, [])
@@ -112,10 +70,17 @@ export const Dashboard = () => {
   useEffect(() => {
     mounted.current = true
     if (mounted.current) {
-      getCountryLables()
-      // getCountriesData()
-      getCountriesData(mounted, dispatch, setError, setCountry)
+      getCarbonMonoxideData(mounted, dispatch, selectedCountryCode, setError, setLoadingCarbonMonoxideData)
+    }
+    return () => { mounted.current = false };
+  }, [])
 
+
+  useEffect(() => {
+    mounted.current = true
+    if (mounted.current) {
+      getCountryLables()
+      getCountriesData(mounted, dispatch, setError, setCountry)
     }
 
     return () => { mounted.current = false };

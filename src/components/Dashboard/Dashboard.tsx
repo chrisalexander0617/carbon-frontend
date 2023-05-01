@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { Button, Grid, Typography } from '@mui/material';
+import { Paper, Button, Grid, Typography } from '@mui/material';
 import { fetchCountriesData, fetchCountryLables } from '../../api/countries';
 import { fetchMethaneData } from '../../api/methane/index';
 import { fetchCarbonMonoxideData } from '../../api/carbonmonoxide/index';
@@ -12,11 +12,12 @@ import { set } from '../../features/methane/methaneSlice';
 import { setCountry } from '../../features/countries/countrySlice';
 import { setCarbonMonoxide } from '../../features/carbonmonoxide/carbonmonoxideSlice';
 import { useTheme } from "@mui/material/styles";
+import { getCountriesData } from '../../api/countries';
 
 import BasicLoader from '../Loaders/BasicLoader';
 import { ICountriesData } from '../../types/countries';
 
-export const Dashboard2 = () => {
+export const Dashboard = () => {
   const theme = useTheme();
 
   const [loading, setLoading] = useState(true);
@@ -31,21 +32,6 @@ export const Dashboard2 = () => {
   const methane_data = useSelector((state: RootState) => state.methane.value)
   const carbonmonoxide_data = useSelector((state: RootState) => state.carbonmonoxide.value)
   const countries_data = useSelector((state: RootState) => state.country.value)
-
-
-  const getCountriesData = async () => {
-    try {
-      mounted.current = true;
-      const result = await fetchCountriesData();
-
-      if (mounted.current) {
-        setCountriesData(result);
-        dispatch(setCountry(result))
-      }
-    } catch (error) {
-      setError("Failed to fetch countries data");
-    }
-  }
 
   const getCountryLables = async () => {
     try {
@@ -127,7 +113,9 @@ export const Dashboard2 = () => {
     mounted.current = true
     if (mounted.current) {
       getCountryLables()
-      getCountriesData()
+      // getCountriesData()
+      getCountriesData(mounted, dispatch, setError, setCountry)
+
     }
 
     return () => { mounted.current = false };
@@ -137,7 +125,7 @@ export const Dashboard2 = () => {
 
   return (
     <>{!countries_data ? <BasicLoader /> :
-      (<Grid sx={{ backgroundColor: theme.palette.primary.main }} container spacing={3} p={3}>
+      (<Grid sx={{ backgroundColor: theme.palette.primary.main }} container maxWidth="fluid" spacing={10} p={3}>
         <Grid item xs={12}>
           <Typography color={theme.palette.secondary.main} variant="h3" textAlign="left">
             Country: {countries_data[selectedCountryCode]} - {selectedCountryCode}
@@ -152,13 +140,13 @@ export const Dashboard2 = () => {
             data={countries_data}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           {!loading ? <BarChart category="Methane" label={methane_data} /> : <BasicLoader />}
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           {!loadingCarbonMonoxideData ? <DualChart category="Carbon Monoxide" label={carbonmonoxide_data} /> : <BasicLoader />}
         </Grid>
-      </Grid>)
+      </Grid >)
     }
     </>
   )

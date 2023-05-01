@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from '@mui/material/CssBaseline';
-import { Dashboard2 } from './components/Dashboard/Dashboard2'
+import { Dashboard } from './components/Dashboard/Dashboard'
 import './App.css';
 import { changeBodyBackgroundColor } from '../src/utils/index'
 import theme from '../src/app/theme';
@@ -17,7 +17,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Dashboard2 />
+      <Dashboard />
     </ThemeProvider>
 
   );

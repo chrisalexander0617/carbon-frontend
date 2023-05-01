@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { ICountryLables, ICountriesData } from '../../types/countries'
+import { Dispatch, SetStateAction, MutableRefObject } from "react";
 
 export const fetchCountriesData = async (): Promise<ICountriesData> => {
   try {
@@ -29,3 +30,21 @@ export const fetchCountryLables = async (): Promise<string[]> => {
     }
   }
 }
+
+export const getCountriesData = async (
+  mounted: MutableRefObject<boolean>,
+  dispatch: Dispatch<any>,
+  setError: Dispatch<SetStateAction<string | null>>,
+  setCountryState: Dispatch<SetStateAction<ICountriesData>>
+): Promise<void> => {
+  try {
+    mounted.current = true;
+    const result = await fetchCountriesData();
+
+    if (mounted.current) {
+      dispatch(setCountryState(result));
+    }
+  } catch (error) {
+    setError("Failed to fetch countries data");
+  }
+};

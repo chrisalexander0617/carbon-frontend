@@ -11,11 +11,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { set } from '../../features/methane/methaneSlice';
 import { setCountry } from '../../features/countries/countrySlice';
 import { setCarbonMonoxide } from '../../features/carbonmonoxide/carbonmonoxideSlice';
+import { useTheme } from "@mui/material/styles";
 
 import BasicLoader from '../Loaders/BasicLoader';
 import { ICountriesData } from '../../types/countries';
 
 export const Dashboard2 = () => {
+  const theme = useTheme();
+
   const [loading, setLoading] = useState(true);
   const [loadingCarbonMonoxideData, setLoadingCarbonMonoxideData] = useState(true);
   const [error, setError] = useState<string | null>(null)
@@ -134,9 +137,9 @@ export const Dashboard2 = () => {
 
   return (
     <>{!countries_data ? <BasicLoader /> :
-      (<Grid sx={{ maxWidth: '100%', m: '0 auto' }} container spacing={3} p={3}>
+      (<Grid sx={{ backgroundColor: theme.palette.primary.main }} container spacing={3} p={3}>
         <Grid item xs={12}>
-          <Typography variant="h3" textAlign="left">
+          <Typography color={theme.palette.secondary.main} variant="h3" textAlign="left">
             Country: {countries_data[selectedCountryCode]} - {selectedCountryCode}
           </Typography>
         </Grid>

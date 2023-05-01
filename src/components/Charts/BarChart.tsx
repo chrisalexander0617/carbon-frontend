@@ -51,7 +51,7 @@ export const BarChart = (props: { label: IMethaneData[], category: string }) => 
       {
         label: category,
         data: averages,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        backgroundColor: '#46c28e'
       },
     ],
   };

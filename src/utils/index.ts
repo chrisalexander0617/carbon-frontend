@@ -10,3 +10,7 @@ export const convertToReadableDateFormat = (date: string): string => {
 
   return readableDate;
 }
+
+export const changeBodyBackgroundColor = (color: string): void => {
+  document.body.style.backgroundColor = color;
+}

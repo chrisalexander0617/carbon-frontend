@@ -12,6 +12,7 @@ import {
 import { Bar, Line } from 'react-chartjs-2';
 import { IMethaneData } from '../../types/methane';
 import { convertToReadableDateFormat } from '../../utils';
+import { useTheme } from "@mui/material/styles";
 
 ChartJS.register(
   CategoryScale,
@@ -26,6 +27,8 @@ ChartJS.register(
 
 export const options = {
   responsive: true,
+  pointRadius: 5,
+  hoverRadius: 1,
   plugins: {
     legend: {
       position: 'top' as const,
@@ -38,6 +41,7 @@ export const options = {
 
 
 export const DualChart = (props: { label: IMethaneData[], category: string }) => {
+  const theme = useTheme();
 
   const { label, category } = props;
 
@@ -55,7 +59,8 @@ export const DualChart = (props: { label: IMethaneData[], category: string }) =>
       {
         label: category,
         data: averages,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        backgroundColor: '#46abc2',
+        borderColor: theme.palette.secondary.main,
       },
     ],
   };

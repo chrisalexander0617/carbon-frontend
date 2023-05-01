@@ -1,7 +1,7 @@
 import React, { SetStateAction, useEffect } from 'react';
 import { Autocomplete, TextField } from '@mui/material';
 import { ICountriesData } from '../../types/countries';
-
+import { useTheme } from "@mui/material/styles";
 interface Props {
   options: string[];
   label: string;
@@ -11,6 +11,8 @@ interface Props {
 }
 
 const AutocompleteComponent: React.FC<Props> = ({ options, label, onChange, onSelect, data }) => {
+  const theme = useTheme();
+
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);
   };
@@ -42,8 +44,9 @@ const AutocompleteComponent: React.FC<Props> = ({ options, label, onChange, onSe
               bgcolor: 'transparent',
               cursor: 'pointer',
               caretColor: 'transparent',
-              color: 'black',
-              '-webkit-text-fill-color': 'rgba(0, 0, 0, 1) !important',
+              color: theme.palette.secondary.main,
+              webkitTextFillColor: theme.palette.secondary.main,
+              border: theme.palette.secondary.main
             },
           }}
         />

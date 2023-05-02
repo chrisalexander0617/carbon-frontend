@@ -2,9 +2,10 @@ import { render, screen } from '@testing-library/react';
 import BarChart from '../components/Charts/BarChart';
 import ResizeObserver from 'resize-observer-polyfill';
 
+// Mock the ResizeObserver API for the component
 window.ResizeObserver = ResizeObserver;
 
-const barChartData = [
+const mockData = [
   {
     time: {
       interval_start: "2021-01-01T00:00:00Z",
@@ -19,20 +20,13 @@ const barChartData = [
       "standard deviation": 18.866792864032956
     }
   }
-]
+];
 
 describe('BarChart component', () => {
-  const mockCategory = 'Test Category';
-
-  beforeAll(() => {
-  });
-
   it('renders the component', () => {
-    window.ResizeObserver = ResizeObserver;
-
-    const { getByTestId } = render(<BarChart label={barChartData} category={mockCategory} />);
-    expect(getByTestId('bar-chart')).toBeInTheDocument();
+    render(<BarChart label={mockData} category="Test Category" />);
+    const chartElement = screen.getByTestId('bar-chart');
+    expect(chartElement).toBeInTheDocument();
+    expect(chartElement.tagName).toBe('SPAN');
   });
-
-  screen.debug()
 });

@@ -17,20 +17,6 @@ export const fetchCountriesData = async (): Promise<ICountriesData> => {
   }
 }
 
-export const fetchCountryLables = async (): Promise<string[]> => {
-  try {
-    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/countries`)
-    const responseInArrayFormat = Object.keys(response.data).map(key => key)
-
-    return responseInArrayFormat
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      throw new Error('Something went wrong: ' + err.message);
-    } else {
-      throw new Error('Something went wrong');
-    }
-  }
-}
 
 export const getCountriesData = async (
   mounted: MutableRefObject<boolean>,

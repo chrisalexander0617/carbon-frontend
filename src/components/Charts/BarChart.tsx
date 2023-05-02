@@ -12,7 +12,6 @@ import { Bar } from 'react-chartjs-2';
 import { IMethaneData } from '../../types/methane';
 import { convertToReadableDateFormat } from '../../utils';
 import { theme } from '../../../src/app/theme'
-import * as MUI from '@mui/material';
 
 ChartJS.register(
   CategoryScale,
@@ -40,6 +39,8 @@ export const BarChart = (props: { label: IMethaneData[], category: string }) => 
 
   const options = {
     responsive: true,
+    barPercentage: 0.5,
+
     plugins: {
       legend: {
         position: 'top' as const,
@@ -48,14 +49,7 @@ export const BarChart = (props: { label: IMethaneData[], category: string }) => 
         display: false,
       },
     },
-    scales: {
-      x: {
-        stacked: true,
-      },
-      y: {
-        stacked: true,
-      },
-    },
+
   };
 
   const data = {

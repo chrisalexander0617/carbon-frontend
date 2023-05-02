@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import * as MUI from '@mui/material';
 import AutocompleteComponent from '../AutoComplete/AutoComplete';
 import BarChart from '../Charts/BarChart';
-import { LineChart } from '../Charts/LineChart';
+import LineChart from '../Charts/LineChart';
 import type { RootState } from '../../app/store'
 import { useSelector, useDispatch } from 'react-redux';
 import { setCountry } from '../../features/countries/countrySlice';

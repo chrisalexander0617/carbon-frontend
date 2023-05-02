@@ -40,7 +40,7 @@ export const options = {
 };
 
 
-export const LineChart = (props: { label: IMethaneData[], category: string }) => {
+const LineChart = (props: { label: IMethaneData[], category: string }) => {
 
   const [chartDimensions, setChartDimensions] = useState({ width: 0, height: 0 });
   const chartRef = useRef<any>();
@@ -83,3 +83,5 @@ export const LineChart = (props: { label: IMethaneData[], category: string }) =>
 
   return <Line options={options} data={data} />;
 }
+
+export default LineChart

@@ -17,7 +17,6 @@ export const fetchCountriesData = async (): Promise<ICountriesData> => {
   }
 }
 
-
 export const getCountriesData = async (
   mounted: MutableRefObject<boolean>,
   dispatch: Dispatch<any>,

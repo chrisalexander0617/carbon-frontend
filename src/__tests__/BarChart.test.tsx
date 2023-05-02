@@ -4,7 +4,6 @@ import ResizeObserver from 'resize-observer-polyfill';
 
 window.ResizeObserver = ResizeObserver;
 
-
 const barChartData = [
   {
     time: {
@@ -34,4 +33,6 @@ describe('BarChart component', () => {
     const { getByTestId } = render(<BarChart label={barChartData} category={mockCategory} />);
     expect(getByTestId('bar-chart')).toBeInTheDocument();
   });
+
+  screen.debug()
 });

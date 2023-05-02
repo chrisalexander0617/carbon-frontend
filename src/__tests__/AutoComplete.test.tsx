@@ -35,6 +35,5 @@ describe('Autocomplete', () => {
 
 
   screen.debug()
-
 });
 

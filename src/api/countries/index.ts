@@ -19,7 +19,7 @@ export const fetchCountriesData = async (): Promise<ICountriesData> => {
 
 export const fetchCountryLables = async (): Promise<string[]> => {
   try {
-    const response = await axios.get(`http://${process.env.REACT_APP_BASE_URL}/countries`)
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/countries`)
     const responseInArrayFormat = Object.keys(response.data).map(key => key)
 
     return responseInArrayFormat

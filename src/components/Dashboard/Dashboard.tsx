@@ -3,18 +3,17 @@ import * as MUI from '@mui/material';
 import { fetchCountryLables } from '../../api/countries';
 import AutocompleteComponent from '../AutoComplete/AutoComplete';
 import { BarChart } from '../Charts/BarChart';
-import { DualChart } from '../Charts/DualChart';
+import { LineChart } from '../Charts/LineChart';
 import type { RootState } from '../../app/store'
 import { useSelector, useDispatch } from 'react-redux';
 import { setCountry } from '../../features/countries/countrySlice';
-import { useTheme } from "@mui/material/styles";
 import { getCountriesData } from '../../api/countries';
 import { getMethaneData } from '../../api/methane/index';
 import BasicLoader from '../Loaders/BasicLoader';
 import { getCarbonMonoxideData } from '../../api/carbonmonoxide/index';
+import { theme } from '../../../src/app/theme';
 
 const Dashboard = () => {
-  const theme = useTheme();
   const [loading, setLoading] = useState(true);
   const [loadingCarbonMonoxideData, setLoadingCarbonMonoxideData] = useState(true);
   const [error, setError] = useState<string | null>(null)
@@ -54,8 +53,11 @@ const Dashboard = () => {
   useEffect(() => {
     mounted.current = true
     if (mounted.current) {
-      getCountryLables()
-      getCountriesData(mounted, dispatch, setError, setCountry)
+      if (!countries_data.length) {
+        getCountryLables()
+        getCountriesData(mounted, dispatch, setError, setCountry)
+      }
+
       getCarbonMonoxideData(mounted, dispatch, selectedCountryCode, setError, setLoadingCarbonMonoxideData)
       getMethaneData(mounted, dispatch, selectedCountryCode, setCountry, setLoading)
     }
@@ -66,30 +68,43 @@ const Dashboard = () => {
   if (!countries_data) return <div><BasicLoader /></div>
 
   return (
-    <>{!countries_data ? <BasicLoader /> :
-      (<MUI.Grid sx={{ backgroundColor: theme.palette.primary.main }} container maxWidth="fluid" spacing={10} p={3}>
-        <MUI.Grid item xs={12}>
-          <MUI.Typography color={theme.palette.secondary.main} variant="h1" textAlign="left">
-            {countries_data[selectedCountryCode]}
-          </MUI.Typography>
-        </MUI.Grid>
-        <MUI.Grid item xs={12}>
-          <AutocompleteComponent
-            onChange={(e) => selectAndUpdateGraphs(e)}
-            onSelect={(e) => selectAndUpdateGraphs(e)}
-            label="Choose a country ID"
-            options={countryLabels}
-            data={countries_data}
-          />
-        </MUI.Grid>
-        <MUI.Grid item xs={12} md={6}>
-          {!loading && methane_data.length > 0 ? <BarChart category="Methane" label={methane_data} /> : <BasicLoader message={error} />}
-        </MUI.Grid>
-        <MUI.Grid item xs={12} md={6}>
-          {!loadingCarbonMonoxideData && carbonmonoxide_data.length > 0 ? <DualChart category="Carbon Monoxide" label={carbonmonoxide_data} /> : <BasicLoader message={error} />}
-        </MUI.Grid>
-      </MUI.Grid >)
-    }
+    <>
+      {!countries_data ? <BasicLoader /> :
+        (
+          <MUI.Grid sx={{ minHeight: 'auto', backgroundColor: theme.palette.primary.main }} container maxWidth="fluid" spacing={5} p={3}>
+            <MUI.Grid item xs={12}>
+              <MUI.Typography color={theme.palette.secondary.main} variant="h1" textAlign="left">
+                {countries_data[selectedCountryCode]}
+              </MUI.Typography>
+            </MUI.Grid>
+            <MUI.Grid item xs={12}>
+              <AutocompleteComponent
+                onChange={(e) => selectAndUpdateGraphs(e)}
+                onSelect={(e) => selectAndUpdateGraphs(e)}
+                label="Choose a country ID"
+                options={countryLabels}
+                data={countries_data}
+              />
+            </MUI.Grid>
+            <MUI.Grid item xs={12} sm={6}>
+              <MUI.Box>
+                {!loading && methane_data.length > 0 ? <BarChart category="Methane" label={methane_data} /> : <BasicLoader message={error} />}
+              </MUI.Box>
+            </MUI.Grid>
+            <MUI.Grid item xs={12} sm={6}>
+              <MUI.Box>
+                {!loadingCarbonMonoxideData && carbonmonoxide_data.length > 0 ? <LineChart category="Carbon Monoxide" label={carbonmonoxide_data} /> : <BasicLoader message={error} />}
+              </MUI.Box>
+            </MUI.Grid>
+            <MUI.Grid item xs={12} sm={6}>
+              <MUI.Box id="main">
+
+              </MUI.Box>
+            </MUI.Grid>
+          </MUI.Grid >
+
+        )
+      }
     </>
   )
 }

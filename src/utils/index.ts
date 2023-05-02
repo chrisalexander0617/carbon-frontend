@@ -1,16 +1,24 @@
-export const convertToReadableDateFormat = (date: string): string => {
-  const dateString: string = date;
-  const dateObj: Date = new Date(dateString);
+/**
+ * Converts a date string to a readable date format.
+ * @param date - The date string to convert.
+ * @returns A string representing the date in the format "MM/DD/YYYY".
+ */
+export function convertToReadableDateFormat(date: string): string {
+  const dateObj = new Date(date);
 
-  const year: number = dateObj.getFullYear();
-  const month: number = dateObj.getMonth() + 1;
-  const day: number = dateObj.getDate();
+  const year = dateObj.getFullYear();
+  const month = dateObj.getMonth() + 1;
+  const day = dateObj.getDate();
 
-  const readableDate: string = `${month}/${day}/${year}`;
+  const readableDate = `${month.toString().padStart(2, '0')}/${day.toString().padStart(2, '0')}/${year}`;
 
   return readableDate;
 }
 
-export const changeBodyBackgroundColor = (color: string): void => {
+/**
+ * Changes the background color of the document's body.
+ * @param color - The color to set the background to.
+ */
+export function changeBodyBackgroundColor(color: string): void {
   document.body.style.backgroundColor = color;
 }

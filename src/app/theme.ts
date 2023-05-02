@@ -6,7 +6,8 @@ import { TypeBackground } from "@mui/material/styles/createPalette";
 declare module "@mui/material/styles" {
   interface Palette {
     chart: {
-      red: string;
+      default?: string;
+      red?: string;
       orange: string;
       yellow: string;
       green: string;
@@ -15,7 +16,8 @@ declare module "@mui/material/styles" {
     };
   }
   interface PaletteOptions {
-    chart?: {
+      chart?: {
+      default?: string;
       red?: string;
       orange?: string;
       yellow?: string;
@@ -34,18 +36,19 @@ const theme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: '#252f3d',
+      main: '#F1F6F9',
     },
     secondary: {
-      main: '#bcc7d6',
+      main: '#212A3E',
     },
     background: {
-      default: "#263238",
-      paper: "#37474f",
-      light: "#ffffff", // custom light background color
+      default: "#212A3E",
+      paper: "#161e38",
+      light: '#bcc7d6', // custom light background color
       lightPaper: "#f5f5f5", // custom light paper color
     },
     chart: {
+      default:'#cc5a65',
       red: "#f44336",
       orange: "#ff9800",
       yellow: "#ffc107",
@@ -56,5 +59,4 @@ const theme = createTheme({
   },
 });
 
-
-export default theme
+export { theme }

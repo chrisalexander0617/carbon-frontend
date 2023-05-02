@@ -2,24 +2,23 @@ import { useEffect, useRef } from 'react';
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from '@mui/material/CssBaseline';
 import Dashboard from './components/Dashboard/Dashboard'
-import './App.css';
-import { changeBodyBackgroundColor } from '../src/utils/index'
-import theme from '../src/app/theme';
-function App() {
-  const mounted = useRef(false)
+import { GlobalStyles } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { theme } from '../src/app/theme';
 
-  useEffect(() => {
-    mounted.current = true;
-    changeBodyBackgroundColor(theme.palette.primary.main)
-    return () => { mounted.current = false };
-  }, [])
+function App() {
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <GlobalStyles styles={{
+        // Set the background color to theme.palette.secondary.main
+        body: {
+          backgroundColor: theme.palette.primary.main,
+        },
+      }} />
       <Dashboard />
     </ThemeProvider>
-
   );
 }
 

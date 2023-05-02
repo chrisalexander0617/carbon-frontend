@@ -1,10 +1,11 @@
 import axios from 'axios'
 import { ICountriesData } from '../../types/countries'
 import { Dispatch, SetStateAction, MutableRefObject } from "react";
+import process from 'process';
 
 export const fetchCountriesData = async (): Promise<ICountriesData> => {
   try {
-    const response = await axios.get('http://localhost:8080/countries')
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/countries`)
 
     return response.data
   } catch (err: unknown) {
@@ -18,7 +19,7 @@ export const fetchCountriesData = async (): Promise<ICountriesData> => {
 
 export const fetchCountryLables = async (): Promise<string[]> => {
   try {
-    const response = await axios.get('http://localhost:8080/countries')
+    const response = await axios.get(`http://${process.env.REACT_APP_BASE_URL}/countries`)
     const responseInArrayFormat = Object.keys(response.data).map(key => key)
 
     return responseInArrayFormat

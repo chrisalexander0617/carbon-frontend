@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +11,8 @@ import {
 import { Bar } from 'react-chartjs-2';
 import { IMethaneData } from '../../types/methane';
 import { convertToReadableDateFormat } from '../../utils';
+import { theme } from '../../../src/app/theme'
+import * as MUI from '@mui/material';
 
 ChartJS.register(
   CategoryScale,
@@ -19,20 +22,6 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
-export const options = {
-  responsive: true,
-  updateMode: 'resize',
-  plugins: {
-    legend: {
-      position: 'top' as const,
-    },
-    title: {
-      display: false,
-    },
-  },
-};
-
 
 export const BarChart = (props: { label: IMethaneData[], category: string }) => {
 
@@ -46,16 +35,55 @@ export const BarChart = (props: { label: IMethaneData[], category: string }) => 
     item.value.max
   ))
 
+  const [chartDimensions, setChartDimensions] = useState({ width: 0, height: 0 });
+  const chartRef = useRef<any>();
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: false,
+      },
+    },
+    scales: {
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true,
+      },
+    },
+  };
+
   const data = {
     labels: mappedDataForLabelsByDate,
     datasets: [
       {
         label: category,
         data: averages,
-        backgroundColor: '#46c28e'
+        backgroundColor: theme.palette.chart.default
       },
     ],
   };
 
-  return <Bar options={options} data={data} />;
+  useEffect(() => {
+    const chart = chartRef.current?.chartInstance;
+    if (chart) {
+      const updateChartDimensions = () => {
+        const width = chartRef.current.offsetWidth;
+        const height = chartRef.current.offsetHeight;
+        setChartDimensions({ width, height });
+      };
+      window.addEventListener('resize', updateChartDimensions);
+      return () => window.removeEventListener('resize', updateChartDimensions);
+    }
+  }, [chartRef]);
+
+
+  return (
+    <Bar options={options} data={data} width={chartDimensions.width} height={chartDimensions.height} />
+  );
 }

@@ -2,10 +2,11 @@ import { ICarbonMonoxideData } from "../../types/carbonmonoxide"
 import { Dispatch } from "react";
 import { setCarbonMonoxideData } from "../../features/carbonmonoxide/carbonmonoxideSlice";
 import axios from 'axios'
+import process from 'process';
 
 export const fetchCarbonMonoxideData = async (query: string): Promise<ICarbonMonoxideData[]> => {
   try {
-    const response = await axios.get(`http://localhost:8080/carbonmonoxide/${query}`)
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/carbonmonoxide/${query}`)
     return response.data
     
   } catch (err: unknown) {
@@ -27,7 +28,6 @@ export const getCarbonMonoxideData = async (
 ): Promise<void> => {
   setLoading(true);
   
-
   try {
     const result = await fetchCarbonMonoxideData(countryCode);
 
@@ -41,7 +41,7 @@ export const getCarbonMonoxideData = async (
       console.log('Error', error.message)
     }
 
-    setError("Failed to fetch methane data");
+    setError("Server Error: Failed to fetch data");
     setLoading(false);
   }
 };

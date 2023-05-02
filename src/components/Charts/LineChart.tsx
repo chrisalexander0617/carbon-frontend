@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,7 +13,7 @@ import {
 import { Bar, Line } from 'react-chartjs-2';
 import { IMethaneData } from '../../types/methane';
 import { convertToReadableDateFormat } from '../../utils';
-import { useTheme } from "@mui/material/styles";
+import { theme } from "../../../src/app/theme";
 
 ChartJS.register(
   CategoryScale,
@@ -24,11 +25,10 @@ ChartJS.register(
   Legend
 );
 
-
 export const options = {
   responsive: true,
   pointRadius: 5,
-  hoverRadius: 1,
+  hoverRadius: 10,
   plugins: {
     legend: {
       position: 'top' as const,
@@ -40,8 +40,10 @@ export const options = {
 };
 
 
-export const DualChart = (props: { label: IMethaneData[], category: string }) => {
-  const theme = useTheme();
+export const LineChart = (props: { label: IMethaneData[], category: string }) => {
+
+  const [chartDimensions, setChartDimensions] = useState({ width: 0, height: 0 });
+  const chartRef = useRef<any>();
 
   const { label, category } = props;
 
@@ -64,6 +66,20 @@ export const DualChart = (props: { label: IMethaneData[], category: string }) =>
       },
     ],
   };
+
+  useEffect(() => {
+    const chart = chartRef.current?.chartInstance;
+    if (chart) {
+      const updateChartDimensions = () => {
+        const width = chartRef.current.offsetWidth;
+        const height = chartRef.current.offsetHeight;
+        setChartDimensions({ width, height });
+      };
+      window.addEventListener('resize', updateChartDimensions);
+      return () => window.removeEventListener('resize', updateChartDimensions);
+    }
+  }, [chartRef]);
+
 
   return <Line options={options} data={data} />;
 }

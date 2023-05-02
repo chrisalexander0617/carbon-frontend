@@ -2,12 +2,12 @@ import { IMethaneData } from "../../types/methane"
 import { set as setMethaneData } from "../../features/methane/methaneSlice";
 import { Dispatch } from "react";
 import axios from 'axios'
+import process from 'process';
 
 export const fetchMethaneData = async (query: string): Promise<IMethaneData[]> => {
-  console.log('QUERY', query)
+  console.log('Fetching Methane Data', process.env.REACT_APP_BASE_URL);
   try {
-    const response = await axios.get(`http://localhost:8080/methane/${query}`)
-    console.log('Methane Data', response.data)
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/methane/${query}`)
     return response.data
     
   } catch (err: unknown) {
@@ -37,7 +37,7 @@ export const getMethaneData = async (
       setError(null)
     }
   } catch (error) {
-    setError("Failed to fetch methane data");
+    setError("Server Error: Failed to fetch data");
     setLoading(false);
   }
 };

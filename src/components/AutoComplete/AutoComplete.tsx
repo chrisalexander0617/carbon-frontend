@@ -1,7 +1,8 @@
 import React, { SetStateAction } from 'react';
 import { Autocomplete, TextField } from '@mui/material';
 import { ICountriesData } from '../../types/countries';
-import { useTheme } from "@mui/material/styles";
+import { theme } from '../../../src/app/theme'
+
 interface Props {
   options: string[];
   label: string;
@@ -9,9 +10,12 @@ interface Props {
   onSelect: (value: any) => void;
   data: ICountriesData
 }
+const InputLabelStyles = {
+  color: theme.palette.secondary.main,
+  fontSize: 24,
+};
 
 const AutocompleteComponent: React.FC<Props> = ({ options, label, onChange, onSelect, data }) => {
-  const theme = useTheme();
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);
@@ -30,30 +34,28 @@ const AutocompleteComponent: React.FC<Props> = ({ options, label, onChange, onSe
       options={uniqueOptions}
       getOptionLabel={(option) => `${data[option]} - ${option}`}
       disableClearable
+      sx={{ backgroundColor: theme.palette.background.default }}
+
       renderInput={(params) => (
         <TextField
           {...params}
           label={label}
-          variant="outlined"
+          variant="filled"
           onSelect={() => handleOnChange}
-          onChange={() => handleOnChange} // remove the parentheses
-          onBlur={() => handleOnChange} // remove the parentheses
+          onChange={() => handleOnChange}
+          onBlur={() => handleOnChange}
           disabled={true}
+
           sx={{
             '& .Mui-disabled': {
-              bgcolor: 'transparent',
               cursor: 'pointer',
-              caretColor: 'transparent',
-              color: theme.palette.secondary.main,
-              webkitTextFillColor: theme.palette.secondary.main,
-              border: theme.palette.secondary.main
+              fontSize: 20,
             },
           }}
         />
       )}
       onChange={(event, value) => handleOnSelect(value || '')}
     />
-
   );
 };
 

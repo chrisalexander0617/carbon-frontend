@@ -78,13 +78,11 @@ const BarChart = (props: { label: IMethaneData[], category: string }) => {
 
 
   return (
-    <span id="bar-chart" data-testid="bar-chart">
-      <Bar options={options}
-        data={data}
-        width={chartDimensions.width}
-        height={chartDimensions.height}
-      />
-    </span>
+    <Bar id="bar-chart" data-testid="bar-chart" options={options}
+      data={data}
+      width={chartDimensions.width}
+      height={chartDimensions.height}
+    />
   );
 }
 

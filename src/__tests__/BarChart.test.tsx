@@ -27,6 +27,6 @@ describe('BarChart component', () => {
     render(<BarChart label={mockData} category="Test Category" />);
     const chartElement = screen.getByTestId('bar-chart');
     expect(chartElement).toBeInTheDocument();
-    expect(chartElement.tagName).toBe('SPAN');
+    expect(chartElement.tagName).toBe('CANVAS');
   });
 });

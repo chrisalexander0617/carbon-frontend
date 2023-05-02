@@ -1,7 +1,4 @@
 import { createTheme } from "@mui/material/styles";
-import { blue, blueGrey, cyan } from "@mui/material/colors";
-import { Palette } from "@mui/material/styles/createPalette";
-import { TypeBackground } from "@mui/material/styles/createPalette";
 
 declare module "@mui/material/styles" {
   interface Palette {

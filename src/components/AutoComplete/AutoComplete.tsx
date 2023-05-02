@@ -44,8 +44,8 @@ const AutocompleteComponent: React.FC<Props> = ({ options, label, onChange, onSe
           onSelect={() => handleOnChange}
           onChange={() => handleOnChange}
           onBlur={() => handleOnChange}
+          role="option"
           disabled={true}
-
           sx={{
             '& .Mui-disabled': {
               cursor: 'pointer',

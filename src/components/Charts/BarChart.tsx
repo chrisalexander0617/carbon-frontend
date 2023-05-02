@@ -22,7 +22,7 @@ ChartJS.register(
   Legend
 );
 
-export const BarChart = (props: { label: IMethaneData[], category: string }) => {
+const BarChart = (props: { label: IMethaneData[], category: string }) => {
 
   const { label, category } = props;
 
@@ -78,6 +78,8 @@ export const BarChart = (props: { label: IMethaneData[], category: string }) => 
 
 
   return (
-    <Bar options={options} data={data} width={chartDimensions.width} height={chartDimensions.height} />
+    <span id="bar-chart" data-testid="bar-chart"><Bar options={options} data={data} width={chartDimensions.width} height={chartDimensions.height} /></span>
   );
 }
+
+export default BarChart;

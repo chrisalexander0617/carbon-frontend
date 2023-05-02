@@ -67,12 +67,12 @@ const Dashboard = () => {
         </MUI.Grid>
         <MUI.Grid item xs={12} sm={6}>
           <MUI.Box>
-            {!loading && methane_data.length > 0 ? <BarChart category="Methane" label={methane_data} /> : <BasicLoader message={error} />}
+            {!loading ? <BarChart category="Methane" label={methane_data} /> : <BasicLoader message={error} />}
           </MUI.Box>
         </MUI.Grid>
         <MUI.Grid item xs={12} sm={6}>
           <MUI.Box>
-            {!loadingCarbonMonoxideData && carbonmonoxide_data.length > 0 ? <LineChart category="Carbon Monoxide" label={carbonmonoxide_data} /> : <BasicLoader message={error} />}
+            {!loadingCarbonMonoxideData ? <LineChart category="Carbon Monoxide" label={carbonmonoxide_data} /> : <BasicLoader message={error} />}
           </MUI.Box>
         </MUI.Grid>
       </MUI.Grid >

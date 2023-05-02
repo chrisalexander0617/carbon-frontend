@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Autocomplete from './AutoComplete';
+import Autocomplete from '../components/AutoComplete/AutoComplete';
 
 describe('Autocomplete', () => {
   const options = ['US', 'CA', 'GB'];

@@ -11,24 +11,25 @@ import { getMethaneData } from '../../api/methane/index';
 import BasicLoader from '../Loaders/BasicLoader';
 import { getCarbonMonoxideData } from '../../api/carbonmonoxide/index';
 import { theme } from '../../../src/app/theme';
+import { setCountryCode } from '../../features/countries/countrycodeSlice';
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [loadingCarbonMonoxideData, setLoadingCarbonMonoxideData] = useState(true);
   const [error, setError] = useState<string | null>(null)
-  const [selectedCountryCode, setSelectedCountryCode] = useState<string>('US')
   const mounted = useRef(false);
   const dispatch = useDispatch()
   const methane_data = useSelector((state: RootState) => state.methane.value)
   const carbonmonoxide_data = useSelector((state: RootState) => state.carbonmonoxide.value)
   const countries_data = useSelector((state: RootState) => state.country.value)
+  const countrycode_data = useSelector((state: RootState) => state.countryCode.value)
 
   const triggerDataFetch = (e: any) => {
     setError(null)
     setLoading(true)
     getMethaneData(mounted, dispatch, e, setError, setLoading)
     getCarbonMonoxideData(mounted, dispatch, e, setError, setLoadingCarbonMonoxideData)
-    setSelectedCountryCode(e)
+    dispatch(setCountryCode(e))
   }
 
   useEffect(() => {
@@ -38,8 +39,8 @@ const Dashboard = () => {
         getCountriesData(mounted, dispatch, setError, setCountry)
       }
 
-      getCarbonMonoxideData(mounted, dispatch, selectedCountryCode, setError, setLoadingCarbonMonoxideData)
-      getMethaneData(mounted, dispatch, selectedCountryCode, setCountry, setLoading)
+      getCarbonMonoxideData(mounted, dispatch, countrycode_data, setError, setLoadingCarbonMonoxideData)
+      getMethaneData(mounted, dispatch, countrycode_data, setCountry, setLoading)
     }
 
     return () => { mounted.current = false };
@@ -52,7 +53,7 @@ const Dashboard = () => {
       <MUI.Grid sx={{ minHeight: 'auto', backgroundColor: theme.palette.primary.main }} container maxWidth="fluid" spacing={5} p={3}>
         <MUI.Grid item xs={12}>
           <MUI.Typography color={theme.palette.secondary.main} variant="h1" textAlign="left">
-            {countries_data[selectedCountryCode]}
+            {countries_data[countrycode_data]}
           </MUI.Typography>
         </MUI.Grid>
         <MUI.Grid item xs={12}>

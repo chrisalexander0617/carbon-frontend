@@ -1,4 +1,3 @@
-import { useState, useEffect, useRef } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -23,7 +22,6 @@ ChartJS.register(
 );
 
 const BarChart = (props: { label: IMethaneData[], category: string }) => {
-
   const { label, category } = props;
 
   const mappedDataForLabelsByDate = label.map((item) => (
@@ -33,9 +31,6 @@ const BarChart = (props: { label: IMethaneData[], category: string }) => {
   const averages = label.map((item) => (
     item.value.max
   ))
-
-  const [chartDimensions, setChartDimensions] = useState({ width: 0, height: 0 });
-  const chartRef = useRef<any>();
 
   const options = {
     responsive: true,
@@ -49,7 +44,6 @@ const BarChart = (props: { label: IMethaneData[], category: string }) => {
         display: false,
       },
     },
-
   };
 
   const data = {
@@ -63,25 +57,9 @@ const BarChart = (props: { label: IMethaneData[], category: string }) => {
     ],
   };
 
-  useEffect(() => {
-    const chart = chartRef.current?.chartInstance;
-    if (chart) {
-      const updateChartDimensions = () => {
-        const width = chartRef.current.offsetWidth;
-        const height = chartRef.current.offsetHeight;
-        setChartDimensions({ width, height });
-      };
-      window.addEventListener('resize', updateChartDimensions);
-      return () => window.removeEventListener('resize', updateChartDimensions);
-    }
-  }, [chartRef]);
-
-
   return (
     <Bar id="bar-chart" data-testid="bar-chart" options={options}
       data={data}
-      width={chartDimensions.width}
-      height={chartDimensions.height}
     />
   );
 }

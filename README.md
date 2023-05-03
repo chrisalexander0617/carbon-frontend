@@ -1,9 +1,13 @@
 # Carbon Data Frontend
 This is the front end tier of a small project that visually displays methane and carbonmonoxide data by country on different charts.
 
-## Get started
+## Technologies
+- Material UI v5
+- TypeScript
+- Axios
+- Redux
 
-In the project directory, you can run:
+## Get started
 
 ### Install Packages
 `yarn install` to install all the packages required to run this repo locally.

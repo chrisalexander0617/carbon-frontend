@@ -1,46 +1,67 @@
-# Getting Started with Create React App
+# Carbon Data Frontend
+This is the front end tier of a small project that visually displays methane and carbonmonoxide data by country on different charts.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
-
-## Available Scripts
+## Get started
 
 In the project directory, you can run:
 
-### `npm start`
+### `yarn install`
+Installs all the packages required to run this repo locally.
 
-Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Babel Config
+Configure your babel.config.js file in the root of your project with the following
 
-### `npm test`
+```
+module.exports = {
+  presets: [
+    ['@babel/preset-env', {targets: {node: 'current'}}],
+    '@babel/preset-typescript',
+  ],
+};
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Jest Config
+Configure your `jest.config.js` file in the root of your directory with the following
 
-### `npm run build`
+```
+module.exports = {
+  // The root directory that Jest should scan for tests and modules within
+  rootDir: './',
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  // The test environment that Jest should use for running tests
+  testEnvironment: 'jsdom',
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  // The file extensions that Jest should look for when running tests
+  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  // The pattern that Jest should use to search for test files
+  testMatch: ['<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}', '<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}'],
 
-### `npm run eject`
+  // The list of paths to directories that Jest should use to search for test files
+  testPathIgnorePatterns: ['<rootDir>/node_modules/'],
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+  // The list of paths to directories that Jest should use to search for modules
+  moduleDirectories: ['node_modules'],
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  // The transform settings that Jest should use for different file types
+  transform: {
+    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
+  },
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+  // Any additional libraries or frameworks that Jest should use for testing
+  setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+  // A map of global variables that should be available in all test files
+  globals: {
+    NODE_ENV: 'test',
+  },
+};
+```
 
-## Learn More
+This is required to properly run tests in typescript environment.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+ALL TESTS GO IN THE `__tests__` DIRECTORY
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Run tests using `yarn test`

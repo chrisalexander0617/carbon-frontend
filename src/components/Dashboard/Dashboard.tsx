@@ -35,6 +35,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     mounted.current = true
+
     if (mounted.current) {
       if (!countries_data.length) {
         getCountriesData(mounted, dispatch, setCountriesError, setCountry)
@@ -43,6 +44,7 @@ const Dashboard = () => {
       getMethaneData(mounted, dispatch, countrycode_data, setMethaneError, setLoadingMethaneData)
       getCarbonMonoxideData(mounted, dispatch, countrycode_data, setCarbonMonoxideError, setLoadingCarbonMonoxideData)
     }
+
     return () => { mounted.current = false };
   }, [])
 

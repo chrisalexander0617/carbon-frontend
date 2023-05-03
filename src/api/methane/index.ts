@@ -1,6 +1,6 @@
 import { IMethaneData } from "../../types/methane"
 import { set as setMethaneData } from "../../features/methane/methaneSlice";
-import { Dispatch } from "react";
+import { Dispatch, SetStateAction } from "react";
 import axios from 'axios'
 import process from 'process';
 
@@ -21,8 +21,8 @@ export const fetchMethaneData = async (query: string): Promise<IMethaneData[]> =
 export const getMethaneData = async (
   dispatch: Dispatch<any>,
   countryCode: string,
-  setError: Dispatch<any>,
-  setLoading: Dispatch<boolean>
+  setError: (value: SetStateAction<string | null>) => void,
+  setLoading: (value: SetStateAction<boolean>) => void
 ): Promise<void> => {
   setLoading(true);
 

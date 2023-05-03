@@ -20,7 +20,7 @@ export const fetchCountriesData = async (): Promise<ICountriesData> => {
 export const getCountriesData = async (
   mounted: MutableRefObject<boolean>,
   dispatch: Dispatch<any>,
-  setError: Dispatch<SetStateAction<string | null>>,
+  setError: (value: SetStateAction<string | null>) => void,
   setCountryState: Dispatch<SetStateAction<ICountriesData>>
 ): Promise<void> => {
   try {

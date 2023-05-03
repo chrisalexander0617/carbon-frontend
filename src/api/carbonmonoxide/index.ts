@@ -1,5 +1,5 @@
 import { ICarbonMonoxideData } from "../../types/carbonmonoxide"
-import { Dispatch } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { setCarbonMonoxideData } from "../../features/carbonmonoxide/carbonmonoxideSlice";
 import axios from 'axios'
 import process from 'process';
@@ -25,8 +25,8 @@ export const fetchCarbonMonoxideData = async (query: string): Promise<ICarbonMon
 export const getCarbonMonoxideData = async (
   dispatch: Dispatch<any>,
   countryCode: string,
-  setError: Dispatch<any>,
-  setLoading: Dispatch<boolean>
+  setError: (value: SetStateAction<string | null>) => void,
+  setLoading: (value: SetStateAction<boolean>) => void
 ): Promise<void> => {
   setLoading(true);
   

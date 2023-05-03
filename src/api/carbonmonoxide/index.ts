@@ -5,16 +5,21 @@ import axios from 'axios'
 import process from 'process';
 
 export const fetchCarbonMonoxideData = async (query: string): Promise<ICarbonMonoxideData[]> => {
+  
+  if (!query || /[^\w\s-]/.test(query)) {
+    throw new Error('Invalid query parameter');
+  }
+
   try {
-    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/carbonmonoxide/${query}`)
-    return response.data
+    const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/carbonmonoxide/${query}`)
+    return data
     
   } catch (err: unknown) {
     if (err instanceof Error) {
       console.log('Error', err.message)
       throw new Error('Something went wrong: ' + err.message);
     } else {
-      throw new Error('Something went wrong');
+      throw new Error('Something else went wrong');
     }
   }
 }

@@ -7,7 +7,6 @@ import process from 'process';
 export const fetchMethaneData = async (query: string): Promise<IMethaneData[]> => {
   try {
     const { data }= await axios.get(`${process.env.REACT_APP_BASE_URL}/methane/${query}`)
-    console.log('API: REsponse =>', data)
     return data
     
   } catch (err: unknown) {
@@ -40,7 +39,6 @@ export const getMethaneData = async (
   
   } catch (error: unknown) {
     if (error instanceof Error) {
-      console.log('Error', error.message)
       setError("Server Error: Failed to fetch data");
     }
   }

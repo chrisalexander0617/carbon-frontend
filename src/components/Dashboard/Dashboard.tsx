@@ -14,17 +14,20 @@ import { theme } from '../../../src/app/theme';
 import { setCountryCode } from '../../features/countries/countrycodeSlice';
 
 const Dashboard = () => {
+  const mounted = useRef(false);
+
   const [loadingMethaneData, setLoadingMethaneData] = useState(false);
   const [loadingCarbonMonoxideData, setLoadingCarbonMonoxideData] = useState(false);
+
   const [countriesError, setCountriesError] = useState<string | null>(null);
   const [methaneError, setMethaneError] = useState<string | null>(null)
   const [carbonMonxideError, setCarbonMonoxideError] = useState<string | null>(null)
-  const mounted = useRef(false);
+
   const dispatch = useDispatch()
   const methane_data = useSelector((state: RootState) => state.methane.value)
   const carbonmonoxide_data = useSelector((state: RootState) => state.carbonmonoxide.value)
-  const countries_data = useSelector((state: RootState) => state.country.value)
-  const countrycode_data = useSelector((state: RootState) => state.countryCode.value)
+  const listOfCountriesByKey = useSelector((state: RootState) => state.country.value)
+  const selectedCountryCodeString = useSelector((state: RootState) => state.countryCode.value)
 
   const styles = { minHeight: 'auto', backgroundColor: theme.palette.primary.main }
 
@@ -38,26 +41,26 @@ const Dashboard = () => {
     mounted.current = true
 
     if (mounted.current) {
-      if (!countries_data.length) {
+      if (!listOfCountriesByKey.length) {
         getCountriesData(mounted, dispatch, setCountriesError, setCountry)
       }
 
       // Sets defaults
-      getMethaneData(dispatch, countrycode_data, setMethaneError, setLoadingMethaneData)
-      getCarbonMonoxideData(dispatch, countrycode_data, setCarbonMonoxideError, setLoadingCarbonMonoxideData)
+      getMethaneData(dispatch, selectedCountryCodeString, setMethaneError, setLoadingMethaneData)
+      getCarbonMonoxideData(dispatch, selectedCountryCodeString, setCarbonMonoxideError, setLoadingCarbonMonoxideData)
     }
 
     return () => { mounted.current = false };
   }, [])
 
-  if (!countries_data) return <div><BasicLoader height="100vh" message={'Failed to load resources'} /></div>
+  if (!listOfCountriesByKey) return <div><BasicLoader height="100vh" message={null} /></div>
 
   return (
     <>
       <MUI.Grid sx={styles} container maxWidth="fluid" spacing={5} p={3}>
         <MUI.Grid item xs={12}>
           <MUI.Typography color={theme.palette.secondary.main} variant="h1" textAlign="left">
-            {countries_data[countrycode_data]}
+            {listOfCountriesByKey[selectedCountryCodeString]}
           </MUI.Typography>
         </MUI.Grid>
         <MUI.Grid item xs={12}>
@@ -65,8 +68,8 @@ const Dashboard = () => {
             onChange={(e) => triggerDataFetch(e)}
             onSelect={(e) => triggerDataFetch(e)}
             label="Choose a country ID"
-            options={Object.keys(countries_data).map(key => key)}
-            data={countries_data}
+            options={Object.keys(listOfCountriesByKey).map(key => key)}
+            data={listOfCountriesByKey}
           />
         </MUI.Grid>
         <MUI.Grid item xs={12} sm={6}>

@@ -5,7 +5,6 @@ import axios from 'axios'
 import process from 'process';
 
 export const fetchCarbonMonoxideData = async (query: string): Promise<ICarbonMonoxideData[]> => {
-  
   if (!query || /[^\w\s-]/.test(query)) {
     throw new Error('Invalid query parameter');
   }
@@ -30,9 +29,6 @@ export const getCarbonMonoxideData = async (
   setLoading: Dispatch<boolean>
 ): Promise<void> => {
   setLoading(true);
-
-
-
   
   try {
     const result = await fetchCarbonMonoxideData(countryCode);
@@ -43,14 +39,11 @@ export const getCarbonMonoxideData = async (
       dispatch(setCarbonMonoxideData(result));
       setLoading(false);
       setError(null)
-    
     }
 
   } catch (error: unknown) {
     if (error instanceof Error) {
-      console.log('Error', error.message)
       setError("Server Error: Failed to fetch data");
-
     }
   }
 };

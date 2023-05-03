@@ -8,7 +8,6 @@ In the project directory, you can run:
 ### `yarn install`
 Installs all the packages required to run this repo locally.
 
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ### Babel Config
 Configure your babel.config.js file in the root of your project with the following
@@ -65,3 +64,9 @@ This is required to properly run tests in typescript environment.
 ALL TESTS GO IN THE `__tests__` DIRECTORY
 
 Run tests using `yarn test`
+
+## Run This App Locally
+`yarn start`
+
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+

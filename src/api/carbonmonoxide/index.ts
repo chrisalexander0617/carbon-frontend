@@ -24,7 +24,6 @@ export const fetchCarbonMonoxideData = async (query: string): Promise<ICarbonMon
 }
 
 export const getCarbonMonoxideData = async (
-  mounted: { current: boolean },
   dispatch: Dispatch<any>,
   countryCode: string,
   setError: Dispatch<any>,
@@ -38,14 +37,13 @@ export const getCarbonMonoxideData = async (
   try {
     const result = await fetchCarbonMonoxideData(countryCode);
 
-    if (mounted.current) {      
-      if(result.length < 1){
-        setError('No data available')
-      } else {
-        dispatch(setCarbonMonoxideData(result));
-        setLoading(false);
-        setError(null)
-      }
+    if(result.length < 1){
+      setError('No data available')
+    } else {
+      dispatch(setCarbonMonoxideData(result));
+      setLoading(false);
+      setError(null)
+    
     }
 
   } catch (error: unknown) {

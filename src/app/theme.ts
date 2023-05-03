@@ -10,6 +10,9 @@ declare module "@mui/material/styles" {
       blue: string;
       purple: string;
     };
+    messages: {
+      warning?: string;
+    };
   }
   interface PaletteOptions {
       chart?: {
@@ -20,6 +23,9 @@ declare module "@mui/material/styles" {
       green?: string;
       blue?: string;
       purple?: string;
+    };
+    messages: {
+      warning?: string;
     };
   }
   interface TypeBackground {
@@ -51,6 +57,9 @@ const theme = createTheme({
       green: "#4caf50",
       blue: "#2196f3",
       purple: "#9c27b0",
+    },
+    messages: {
+      warning: "#f44336",
     },
   },
 });

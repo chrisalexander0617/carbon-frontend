@@ -26,11 +26,12 @@ const Dashboard = () => {
   const countries_data = useSelector((state: RootState) => state.country.value)
   const countrycode_data = useSelector((state: RootState) => state.countryCode.value)
 
-  const triggerDataFetch = (e: any) => {
-    getMethaneData(mounted, dispatch, e, setMethaneError, setLoadingMethaneData)
-    getCarbonMonoxideData(mounted, dispatch, e, setCarbonMonoxideError, setLoadingCarbonMonoxideData)
-    dispatch(setCountryCode(e))
+  const styles = { minHeight: 'auto', backgroundColor: theme.palette.primary.main }
 
+  const triggerDataFetch = (e: any) => {
+    dispatch(setCountryCode(e))
+    getMethaneData(dispatch, e, setMethaneError, setLoadingMethaneData)
+    getCarbonMonoxideData(dispatch, e, setCarbonMonoxideError, setLoadingCarbonMonoxideData)
   }
 
   useEffect(() => {
@@ -41,18 +42,19 @@ const Dashboard = () => {
         getCountriesData(mounted, dispatch, setCountriesError, setCountry)
       }
 
-      getMethaneData(mounted, dispatch, countrycode_data, setMethaneError, setLoadingMethaneData)
-      getCarbonMonoxideData(mounted, dispatch, countrycode_data, setCarbonMonoxideError, setLoadingCarbonMonoxideData)
+      // Sets defaults
+      getMethaneData(dispatch, countrycode_data, setMethaneError, setLoadingMethaneData)
+      getCarbonMonoxideData(dispatch, countrycode_data, setCarbonMonoxideError, setLoadingCarbonMonoxideData)
     }
 
     return () => { mounted.current = false };
   }, [])
 
-  if (!countries_data) return <div><BasicLoader message={null} /></div>
+  if (!countries_data) return <div><BasicLoader height="100vh" message={'Failed to load resources'} /></div>
 
   return (
     <>
-      <MUI.Grid sx={{ minHeight: 'auto', backgroundColor: theme.palette.primary.main }} container maxWidth="fluid" spacing={5} p={3}>
+      <MUI.Grid sx={styles} container maxWidth="fluid" spacing={5} p={3}>
         <MUI.Grid item xs={12}>
           <MUI.Typography color={theme.palette.secondary.main} variant="h1" textAlign="left">
             {countries_data[countrycode_data]}
@@ -69,12 +71,18 @@ const Dashboard = () => {
         </MUI.Grid>
         <MUI.Grid item xs={12} sm={6}>
           <MUI.Box>
-            {!loadingMethaneData ? <BarChart category="Methane" label={methane_data} /> : <BasicLoader message={methaneError} />}
+            {!loadingMethaneData ?
+              <BarChart category="Methane" label={methane_data} /> :
+              <BasicLoader height="500px" message={methaneError} />
+            }
           </MUI.Box>
         </MUI.Grid>
         <MUI.Grid item xs={12} sm={6}>
           <MUI.Box>
-            {!loadingCarbonMonoxideData ? <LineChart category="Carbon Monoxide" label={carbonmonoxide_data} /> : <BasicLoader message={carbonMonxideError} />}
+            {!loadingCarbonMonoxideData ?
+              <LineChart category="Carbon Monoxide" label={carbonmonoxide_data} /> :
+              <BasicLoader height="500px" message={carbonMonxideError} />
+            }
           </MUI.Box>
         </MUI.Grid>
       </MUI.Grid >

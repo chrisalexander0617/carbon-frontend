@@ -20,7 +20,6 @@ export const fetchMethaneData = async (query: string): Promise<IMethaneData[]> =
 }
 
 export const getMethaneData = async (
-  mounted: { current: boolean },
   dispatch: Dispatch<any>,
   countryCode: string,
   setError: Dispatch<any>,
@@ -31,15 +30,14 @@ export const getMethaneData = async (
   try {
     const result = await fetchMethaneData(countryCode);
 
-    if (mounted.current) {
-      if(result.length < 1) {
-        setError('No data available')
-      } else {
-        dispatch(setMethaneData(result));
-        setLoading(false);
-        setError(null)
-      }
+    if(result.length < 1) {
+      setError('No data available')
+    } else {
+      dispatch(setMethaneData(result));
+      setLoading(false);
+      setError(null)
     }
+  
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.log('Error', error.message)

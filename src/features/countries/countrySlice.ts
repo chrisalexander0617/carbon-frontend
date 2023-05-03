@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
+import { ICountriesData } from '../../types/countries'
 
 const initialState = { 
-  value: {} as any
+  value: {} as ICountriesData,
 }
 
 export const countrySlice = createSlice({

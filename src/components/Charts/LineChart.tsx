@@ -81,7 +81,7 @@ const LineChart = (props: { label: IMethaneData[], category: string }) => {
   }, [chartRef]);
 
 
-  return <Line options={options} data={data} />;
+  return <Line id="line-chart" data-testid="line-chart" options={options} data={data} />;
 }
 
 export default LineChart

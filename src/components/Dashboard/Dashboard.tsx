@@ -14,9 +14,11 @@ import { theme } from '../../../src/app/theme';
 import { setCountryCode } from '../../features/countries/countrycodeSlice';
 
 const Dashboard = () => {
-  const [loading, setLoading] = useState(true);
-  const [loadingCarbonMonoxideData, setLoadingCarbonMonoxideData] = useState(true);
-  const [error, setError] = useState<string | null>(null)
+  const [loadingMethaneData, setLoadingMethaneData] = useState(false);
+  const [loadingCarbonMonoxideData, setLoadingCarbonMonoxideData] = useState(false);
+  const [countriesError, setCountriesError] = useState<string | null>(null);
+  const [methaneError, setMethaneError] = useState<string | null>(null)
+  const [carbonMonxideError, setCarbonMonoxideError] = useState<string | null>(null)
   const mounted = useRef(false);
   const dispatch = useDispatch()
   const methane_data = useSelector((state: RootState) => state.methane.value)
@@ -25,28 +27,26 @@ const Dashboard = () => {
   const countrycode_data = useSelector((state: RootState) => state.countryCode.value)
 
   const triggerDataFetch = (e: any) => {
-    setError(null)
-    setLoading(true)
-    getMethaneData(mounted, dispatch, e, setError, setLoading)
-    getCarbonMonoxideData(mounted, dispatch, e, setError, setLoadingCarbonMonoxideData)
+    getMethaneData(mounted, dispatch, e, setMethaneError, setLoadingMethaneData)
+    getCarbonMonoxideData(mounted, dispatch, e, setCarbonMonoxideError, setLoadingCarbonMonoxideData)
     dispatch(setCountryCode(e))
+
   }
 
   useEffect(() => {
     mounted.current = true
     if (mounted.current) {
       if (!countries_data.length) {
-        getCountriesData(mounted, dispatch, setError, setCountry)
+        getCountriesData(mounted, dispatch, setCountriesError, setCountry)
       }
 
-      getCarbonMonoxideData(mounted, dispatch, countrycode_data, setError, setLoadingCarbonMonoxideData)
-      getMethaneData(mounted, dispatch, countrycode_data, setCountry, setLoading)
+      getMethaneData(mounted, dispatch, countrycode_data, setMethaneError, setLoadingMethaneData)
+      getCarbonMonoxideData(mounted, dispatch, countrycode_data, setCarbonMonoxideError, setLoadingCarbonMonoxideData)
     }
-
     return () => { mounted.current = false };
   }, [])
 
-  if (!countries_data) return <div><BasicLoader /></div>
+  if (!countries_data) return <div><BasicLoader message={null} /></div>
 
   return (
     <>
@@ -67,12 +67,12 @@ const Dashboard = () => {
         </MUI.Grid>
         <MUI.Grid item xs={12} sm={6}>
           <MUI.Box>
-            {!loading ? <BarChart category="Methane" label={methane_data} /> : <BasicLoader message={error} />}
+            {!loadingMethaneData ? <BarChart category="Methane" label={methane_data} /> : <BasicLoader message={methaneError} />}
           </MUI.Box>
         </MUI.Grid>
         <MUI.Grid item xs={12} sm={6}>
           <MUI.Box>
-            {!loadingCarbonMonoxideData ? <LineChart category="Carbon Monoxide" label={carbonmonoxide_data} /> : <BasicLoader message={error} />}
+            {!loadingCarbonMonoxideData ? <LineChart category="Carbon Monoxide" label={carbonmonoxide_data} /> : <BasicLoader message={carbonMonxideError} />}
           </MUI.Box>
         </MUI.Grid>
       </MUI.Grid >

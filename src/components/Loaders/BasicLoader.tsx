@@ -3,11 +3,13 @@ import * as MUI from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 interface IBasicLoaderProps {
   condition?: boolean;
-  message?: string | null;
+  message: string | null;
 }
 
 const BasicLoader: React.FC<IBasicLoaderProps> = ({ message }) => {
   const theme = useTheme();
+
+  console.log('We have a message: ', message);
 
   return (
     <MUI.Box sx={{
@@ -17,7 +19,7 @@ const BasicLoader: React.FC<IBasicLoaderProps> = ({ message }) => {
       height: '500px',
       width: '100%',
     }}>
-      {!message?.length && <MUI.CircularProgress sx={{ color: theme.palette.secondary.main }} />}
+      {!message && <MUI.CircularProgress sx={{ color: theme.palette.secondary.main }} />}
       <MUI.Typography color={theme.palette.secondary.main}>{message}</MUI.Typography>
     </MUI.Box>
   );

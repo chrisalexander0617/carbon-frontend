@@ -16,7 +16,6 @@ export const fetchCarbonMonoxideData = async (query: string): Promise<ICarbonMon
     
   } catch (err: unknown) {
     if (err instanceof Error) {
-      console.log('Error', err.message)
       throw new Error('Something went wrong: ' + err.message);
     } else {
       throw new Error('Something else went wrong');
@@ -32,22 +31,29 @@ export const getCarbonMonoxideData = async (
   setLoading: Dispatch<boolean>
 ): Promise<void> => {
   setLoading(true);
+
+
+
   
   try {
     const result = await fetchCarbonMonoxideData(countryCode);
 
-    if (mounted.current) {
-      dispatch(setCarbonMonoxideData(result));
-      setLoading(false);
-      setError(null)
+    if (mounted.current) {      
+      if(result.length < 1){
+        setError('No data available')
+      } else {
+        dispatch(setCarbonMonoxideData(result));
+        setLoading(false);
+        setError(null)
+      }
     }
+
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.log('Error', error.message)
-    }
+      setError("Server Error: Failed to fetch data");
 
-    setError("Server Error: Failed to fetch data");
-    setLoading(false);
+    }
   }
 };
 

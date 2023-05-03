@@ -5,9 +5,11 @@ This is the front end tier of a small project that visually displays methane and
 
 In the project directory, you can run:
 
-### `yarn install`
-Installs all the packages required to run this repo locally.
+### Install Packages
+`yarn install` to install all the packages required to run this repo locally.
 
+### Configure ENV Variables
+Create a `.env` file in the root of the repo directory with a variable `REACT_APP_BASE_URL` with the value of `https://carbon-backend-production.up.railway.app`
 
 ### Babel Config
 Configure your babel.config.js file in the root of your project with the following

@@ -3,7 +3,6 @@ export interface Time {
   max: string;
   min: string;
 }
-
 export interface Value {
   average: number
   count: number
@@ -11,7 +10,6 @@ export interface Value {
   min: number
   "standard deviation": number
 }
-
 export interface ICarbonMonoxideData {
   time: Time
   value: Value

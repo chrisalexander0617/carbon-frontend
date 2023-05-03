@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { ICarbonMonoxideData } from '../../types/carbonmonoxide'
-
 interface CarbonMonoxideState {
   value: ICarbonMonoxideData[]
 }
@@ -21,5 +20,4 @@ export const carbonmonoxideSlice = createSlice({
 })
 
 export const { setCarbonMonoxideData } = carbonmonoxideSlice.actions
-
 export default carbonmonoxideSlice.reducer

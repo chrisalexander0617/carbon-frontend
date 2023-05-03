@@ -33,7 +33,6 @@ describe('Autocomplete', () => {
     );
   });
 
-
   screen.debug()
 });
 

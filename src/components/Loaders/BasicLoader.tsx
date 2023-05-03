@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as MUI from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-
 interface IBasicLoaderProps {
   condition?: boolean;
   message?: string | null;

@@ -41,19 +41,42 @@ const Dashboard = () => {
     mounted.current = true
 
     if (mounted.current) {
+      /* Sets defaults */
       if (!listOfCountriesByKey.length) {
-        getCountriesData(mounted, dispatch, setCountriesError, setCountry)
+        getCountriesData(
+          mounted,
+          dispatch,
+          setCountriesError,
+          setCountry
+        )
       }
 
-      // Sets defaults
-      getMethaneData(dispatch, selectedCountryCodeString, setMethaneError, setLoadingMethaneData)
-      getCarbonMonoxideData(dispatch, selectedCountryCodeString, setCarbonMonoxideError, setLoadingCarbonMonoxideData)
+      getMethaneData(
+        dispatch,
+        selectedCountryCodeString,
+        setMethaneError,
+        setLoadingMethaneData
+      )
+
+      getCarbonMonoxideData(
+        dispatch,
+        selectedCountryCodeString,
+        setCarbonMonoxideError,
+        setLoadingCarbonMonoxideData
+      )
     }
 
     return () => { mounted.current = false };
   }, [])
 
-  if (countriesError) return <div><BasicLoader height="100vh" message={countriesError} /></div>
+  if (countriesError) return (
+    <div>
+      <BasicLoader
+        height="100vh"
+        message={countriesError}
+      />
+    </div>
+  )
 
   return (
     <>

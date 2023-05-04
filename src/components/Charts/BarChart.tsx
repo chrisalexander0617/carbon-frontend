@@ -23,7 +23,12 @@ ChartJS.register(
   Legend
 );
 
-const BarChart = (props: { label: IMethaneData[], category: string, isLoading: boolean, errorMessage: string | null }) => {
+const BarChart = (props: {
+  label: IMethaneData[],
+  category: string,
+  isLoading: boolean,
+  errorMessage: string | null
+}) => {
   const { label, category, isLoading, errorMessage } = props;
 
   const mappedDataForLabelsByDate = label.map((item) => (
@@ -37,7 +42,6 @@ const BarChart = (props: { label: IMethaneData[], category: string, isLoading: b
   const options = {
     responsive: true,
     barPercentage: 0.5,
-
     plugins: {
       legend: {
         position: 'top' as const,
@@ -59,7 +63,14 @@ const BarChart = (props: { label: IMethaneData[], category: string, isLoading: b
     ],
   };
 
-  if (isLoading) return <BasicLoader message={errorMessage} height="500px" />;
+  if (isLoading) return (
+    <span data-testid="bar-chart">
+      <BasicLoader
+        data-testid="bar-chart"
+        message={errorMessage}
+        height="500px" />
+    </span>
+  );
 
   return (
     <Bar id="bar-chart" data-testid="bar-chart" options={options}

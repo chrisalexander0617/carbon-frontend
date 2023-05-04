@@ -38,7 +38,13 @@ export const options = {
   },
 };
 
-const LineChart = (props: { label: ICarbonMonoxideData[], category: string, isLoading: boolean, errorMessage: string | null }) => {
+const LineChart = (props: {
+  label: ICarbonMonoxideData[],
+  category: string,
+  isLoading: boolean,
+  errorMessage:
+  string | null
+}) => {
   const { label, category, isLoading, errorMessage } = props;
 
   const mappedDataForLabelsByDate = label.map((item) => (
@@ -61,9 +67,23 @@ const LineChart = (props: { label: ICarbonMonoxideData[], category: string, isLo
     ],
   };
 
-  if (isLoading) return <BasicLoader message={errorMessage} height="500px" />;
+  if (isLoading) return (
+    <span data-testid="line-chart">
+      <BasicLoader
+        message={errorMessage}
+        height="500px"
+      />
+    </span>
+  );
 
-  return <Line id="line-chart" data-testid="line-chart" options={options} data={data} />;
+  return (
+    <Line
+      id="line-chart"
+      data-testid="line-chart"
+      options={options}
+      data={data}
+    />
+  );
 }
 
 export default LineChart

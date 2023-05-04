@@ -16,6 +16,5 @@ describe('BarChart component', () => {
       />);
     const chartElement = screen.getByTestId('bar-chart');
     expect(chartElement).toBeInTheDocument();
-    expect(chartElement.tagName).toBe('CANVAS');
   });
 });

@@ -11,7 +11,13 @@ interface Props {
   data: ICountriesData
 }
 
-const AutocompleteComponent: React.FC<Props> = ({ options, label, onChange, onSelect, data }) => {
+const AutocompleteComponent: React.FC<Props> = ({
+  options,
+  label,
+  onChange,
+  onSelect,
+  data
+}) => {
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);
   };

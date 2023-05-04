@@ -18,7 +18,7 @@ const BasicLoader: React.FC<IBasicLoaderProps> = ({ message, height }) => {
       width: '100%',
     }}>
       {!message && <MUI.CircularProgress sx={{ color: theme.palette.secondary.main }} />}
-      <MUI.Typography variant="h3" color={theme.palette.messages.warning}>{message}</MUI.Typography>
+      <MUI.Typography variant="h3" color={theme.palette.messages?.warning || '#000000'}>{message}</MUI.Typography>
     </MUI.Box>
   );
 }

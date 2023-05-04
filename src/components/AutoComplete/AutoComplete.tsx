@@ -11,11 +11,6 @@ interface Props {
   data: ICountriesData
 }
 
-const InputLabelStyles = {
-  color: theme.palette.secondary.main,
-  fontSize: 24,
-};
-
 const AutocompleteComponent: React.FC<Props> = ({ options, label, onChange, onSelect, data }) => {
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,13 +21,9 @@ const AutocompleteComponent: React.FC<Props> = ({ options, label, onChange, onSe
     onSelect(value);
   };
 
-  const uniqueOptions = options.filter(function (item, pos) {
-    return options.indexOf(item) === pos;
-  });
-
   return (
     <Autocomplete
-      options={uniqueOptions}
+      options={options}
       getOptionLabel={(option) => `${data[option]} - ${option}`}
       disableClearable
       sx={{ backgroundColor: theme.palette.background.default }}

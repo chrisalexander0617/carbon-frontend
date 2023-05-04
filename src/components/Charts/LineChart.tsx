@@ -9,7 +9,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { IMethaneData } from '../../types/methane';
+import { ICarbonMonoxideData } from '../../types/carbonmonoxide';
 import { convertToReadableDateFormat } from '../../utils';
 import { theme } from "../../../src/app/theme";
 
@@ -37,7 +37,7 @@ export const options = {
   },
 };
 
-const LineChart = (props: { label: IMethaneData[], category: string }) => {
+const LineChart = (props: { label: ICarbonMonoxideData[], category: string }) => {
   const { label, category } = props;
 
   const mappedDataForLabelsByDate = label.map((item) => (

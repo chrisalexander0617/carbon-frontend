@@ -21,7 +21,7 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src", 
-    "src/__tests__/AutoComplete.test.tsx",
-    "src/__tests__/BarChart.test.tsx"  ]
+    "src",
+  ],
+  "baseUrl": "src",
 }

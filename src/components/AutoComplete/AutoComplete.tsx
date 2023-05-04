@@ -12,7 +12,6 @@ interface Props {
 }
 
 const AutocompleteComponent: React.FC<Props> = ({ options, label, onChange, onSelect, data }) => {
-
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);
   };

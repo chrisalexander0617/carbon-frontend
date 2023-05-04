@@ -10,6 +10,6 @@ describe('BarChart component', () => {
     render(<LineChart label={mockData} category="Test Category" />);
     const chartElement = screen.getByTestId('line-chart');
     expect(chartElement).toBeInTheDocument();
-    expect(chartElement.tagName).toBe('CANVAS');
+    expect(chartElement.tagName).toBe('CANVAS'); // canvas must be the parent element
   });
 });

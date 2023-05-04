@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import LineChart from '../components/Charts/LineChart';
 import ResizeObserver from 'resize-observer-polyfill';
 import { mockData } from '../data/mockdata';
-
 window.ResizeObserver = ResizeObserver;
 
 describe('BarChart component', () => {

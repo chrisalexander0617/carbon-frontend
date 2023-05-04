@@ -53,7 +53,7 @@ const Dashboard = () => {
     return () => { mounted.current = false };
   }, [])
 
-  if (!listOfCountriesByKey) return <div><BasicLoader height="100vh" message={null} /></div>
+  if (countriesError) return <div><BasicLoader height="100vh" message={countriesError} /></div>
 
   return (
     <>
@@ -74,18 +74,22 @@ const Dashboard = () => {
         </MUI.Grid>
         <MUI.Grid item xs={12} sm={6}>
           <MUI.Box>
-            {!loadingMethaneData ?
-              <BarChart category="Methane" label={methane_data} /> :
-              <BasicLoader height="500px" message={methaneError} />
-            }
+            <BarChart
+              category="Methane"
+              label={methane_data}
+              isLoading={loadingMethaneData}
+              errorMessage={methaneError}
+            />
           </MUI.Box>
         </MUI.Grid>
         <MUI.Grid item xs={12} sm={6}>
           <MUI.Box>
-            {!loadingCarbonMonoxideData ?
-              <LineChart category="Carbon Monoxide" label={carbonmonoxide_data} /> :
-              <BasicLoader height="500px" message={carbonMonxideError} />
-            }
+            <LineChart
+              category="Carbon Monoxide"
+              label={carbonmonoxide_data}
+              isLoading={loadingCarbonMonoxideData}
+              errorMessage={carbonMonxideError}
+            />
           </MUI.Box>
         </MUI.Grid>
       </MUI.Grid >

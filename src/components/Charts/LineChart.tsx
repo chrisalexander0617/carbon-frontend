@@ -12,6 +12,7 @@ import { Line } from 'react-chartjs-2';
 import { ICarbonMonoxideData } from '../../types/carbonmonoxide';
 import { convertToReadableDateFormat } from '../../utils';
 import { theme } from "../../../src/app/theme";
+import BasicLoader from '../../components/Loaders/BasicLoader';
 
 ChartJS.register(
   CategoryScale,
@@ -37,8 +38,8 @@ export const options = {
   },
 };
 
-const LineChart = (props: { label: ICarbonMonoxideData[], category: string }) => {
-  const { label, category } = props;
+const LineChart = (props: { label: ICarbonMonoxideData[], category: string, isLoading: boolean, errorMessage: string | null }) => {
+  const { label, category, isLoading, errorMessage } = props;
 
   const mappedDataForLabelsByDate = label.map((item) => (
     convertToReadableDateFormat(item.time.interval_start)
@@ -60,6 +61,7 @@ const LineChart = (props: { label: ICarbonMonoxideData[], category: string }) =>
     ],
   };
 
+  if (isLoading) return <BasicLoader message={errorMessage} height="500px" />;
 
   return <Line id="line-chart" data-testid="line-chart" options={options} data={data} />;
 }
